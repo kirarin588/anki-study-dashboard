@@ -198,13 +198,13 @@
 
 <div class="anki-dash">
   <h1>M3 2学期 学習ペース</h1>
-  <div class="meta">プロファイル: きら ・ 最終同期: 2026-09-04T10:53:59<span id="liveUpdated"></span></div>
+  <div class="meta">プロファイル: きら ・ 最終同期: 2026-09-04T12:09:38<span id="liveUpdated"></span></div>
   <div class="nav-link"><a href="./simulation.html" target="_blank" rel="noopener">試験逆算シミュレーションを開く →</a></div>
   <div class="refresh-row">
     <button class="refresh-btn" id="refreshBtn" type="button">Ankiから今すぐ更新</button>
     <span class="refresh-status" id="refreshStatus"></span>
   </div>
-  <p class="refresh-note">Ankiを起動した状態で押すと、消化率・残り枚数・今日の復習予定・終了予測・負荷カレンダーをその場で最新化します（直近の推移グラフは前回の夜間同期のままです）。</p>
+  <p class="refresh-note">Ankiを起動した状態で押すと、消化率・残り枚数・今日の復習予定・終了予測・ペース推移・負荷カレンダーを全てその場で最新化します（曜日別グラフのみ前回の夜間同期のままです。復習履歴を読み直すため、デッキ数によっては数十秒かかることがあります）。</p>
 
   <section class="deck-section hero">
       <h2>M3 2学期<span class="hero-badge">全体</span></h2>
@@ -238,7 +238,7 @@
       
     </div></div>
       <h3>直近30日のペース推移</h3>
-      <div class="chart-wrap"><div class="legend">
+      <div class="chart-wrap" id="pace-0"><div class="legend">
       <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
       <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
     </div><svg viewBox="0 0 860 200" class="chart" role="img" preserveAspectRatio="none">
@@ -281,7 +281,7 @@
       <div class="tile-value">0.0</div>
       
     </div></div>
-      <div class="chart-wrap"><div class="legend">
+      <div class="chart-wrap" id="pace-cat-0"><div class="legend">
       <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
       <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
     </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
@@ -321,7 +321,7 @@
       <div class="tile-value">0.0</div>
       
     </div></div>
-      <div class="chart-wrap"><div class="legend">
+      <div class="chart-wrap" id="pace-cat-1"><div class="legend">
       <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
       <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
     </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
@@ -394,7 +394,7 @@
       <div class="tile-value">0.0</div>
       
     </div></div>
-      <div class="chart-wrap"><div class="legend">
+      <div class="chart-wrap" id="pace-10"><div class="legend">
       <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
       <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
     </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
@@ -434,7 +434,7 @@
       <div class="tile-value">0.0</div>
       
     </div></div>
-      <div class="chart-wrap"><div class="legend">
+      <div class="chart-wrap" id="pace-11"><div class="legend">
       <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
       <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
     </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
@@ -506,7 +506,7 @@
       <div class="tile-value">0.0</div>
       
     </div></div>
-      <div class="chart-wrap"><div class="legend">
+      <div class="chart-wrap" id="pace-12"><div class="legend">
       <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
       <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
     </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
@@ -546,7 +546,7 @@
       <div class="tile-value">0.0</div>
       
     </div></div>
-      <div class="chart-wrap"><div class="legend">
+      <div class="chart-wrap" id="pace-13"><div class="legend">
       <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
       <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
     </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
@@ -618,7 +618,7 @@
       <div class="tile-value">0.0</div>
       
     </div></div>
-      <div class="chart-wrap"><div class="legend">
+      <div class="chart-wrap" id="pace-14"><div class="legend">
       <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
       <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
     </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
@@ -658,7 +658,7 @@
       <div class="tile-value">0.0</div>
       
     </div></div>
-      <div class="chart-wrap"><div class="legend">
+      <div class="chart-wrap" id="pace-15"><div class="legend">
       <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
       <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
     </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
@@ -730,7 +730,7 @@
       <div class="tile-value">0.0</div>
       
     </div></div>
-      <div class="chart-wrap"><div class="legend">
+      <div class="chart-wrap" id="pace-16"><div class="legend">
       <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
       <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
     </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
@@ -770,7 +770,7 @@
       <div class="tile-value">0.0</div>
       
     </div></div>
-      <div class="chart-wrap"><div class="legend">
+      <div class="chart-wrap" id="pace-17"><div class="legend">
       <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
       <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
     </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
@@ -842,7 +842,7 @@
       <div class="tile-value">0.0</div>
       
     </div></div>
-      <div class="chart-wrap"><div class="legend">
+      <div class="chart-wrap" id="pace-18"><div class="legend">
       <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
       <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
     </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
@@ -882,7 +882,7 @@
       <div class="tile-value">0.0</div>
       
     </div></div>
-      <div class="chart-wrap"><div class="legend">
+      <div class="chart-wrap" id="pace-19"><div class="legend">
       <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
       <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
     </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
@@ -954,7 +954,7 @@
       <div class="tile-value">0.0</div>
       
     </div></div>
-      <div class="chart-wrap"><div class="legend">
+      <div class="chart-wrap" id="pace-20"><div class="legend">
       <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
       <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
     </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
@@ -994,7 +994,7 @@
       <div class="tile-value">0.0</div>
       
     </div></div>
-      <div class="chart-wrap"><div class="legend">
+      <div class="chart-wrap" id="pace-21"><div class="legend">
       <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
       <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
     </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
@@ -1066,7 +1066,7 @@
       <div class="tile-value">0.0</div>
       
     </div></div>
-      <div class="chart-wrap"><div class="legend">
+      <div class="chart-wrap" id="pace-22"><div class="legend">
       <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
       <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
     </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
@@ -1106,7 +1106,7 @@
       <div class="tile-value">0.0</div>
       
     </div></div>
-      <div class="chart-wrap"><div class="legend">
+      <div class="chart-wrap" id="pace-23"><div class="legend">
       <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
       <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
     </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
@@ -1178,7 +1178,7 @@
       <div class="tile-value">0.0</div>
       
     </div></div>
-      <div class="chart-wrap"><div class="legend">
+      <div class="chart-wrap" id="pace-24"><div class="legend">
       <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
       <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
     </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
@@ -1218,7 +1218,7 @@
       <div class="tile-value">0.0</div>
       
     </div></div>
-      <div class="chart-wrap"><div class="legend">
+      <div class="chart-wrap" id="pace-25"><div class="legend">
       <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
       <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
     </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
@@ -1290,7 +1290,7 @@
       <div class="tile-value">0.0</div>
       
     </div></div>
-      <div class="chart-wrap"><div class="legend">
+      <div class="chart-wrap" id="pace-26"><div class="legend">
       <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
       <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
     </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
@@ -1330,7 +1330,7 @@
       <div class="tile-value">0.0</div>
       
     </div></div>
-      <div class="chart-wrap"><div class="legend">
+      <div class="chart-wrap" id="pace-27"><div class="legend">
       <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
       <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
     </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
@@ -1364,7 +1364,7 @@
 </div>
 
 <script>
-const REFRESH_CONFIG = {"ankiconnect_url": "http://127.0.0.1:8765", "forecast_days": 30, "spike_threshold_ratio": 1.4, "leaf_decks": ["M3 2学期::データ分析に基づく研究講義::問題編", "M3 2学期::データ分析に基づく研究講義::穴埋め編", "M3 2学期::女性内分泌・妊娠::問題編", "M3 2学期::女性内分泌・妊娠::穴埋め編", "M3 2学期::循環器Ⅱ::問題編", "M3 2学期::循環器Ⅱ::穴埋め編", "M3 2学期::性腺・生殖器::問題編", "M3 2学期::性腺・生殖器::穴埋め編", "M3 2学期::消化器系Ⅱ::問題編", "M3 2学期::消化器系Ⅱ::穴埋め編", "M3 2学期::神経系::問題編", "M3 2学期::神経系::穴埋め編", "M3 2学期::精神系::問題編", "M3 2学期::精神系::穴埋め編", "M3 2学期::耳鼻・咽喉・口腔系::問題編", "M3 2学期::耳鼻・咽喉・口腔系::穴埋め編", "M3 2学期::運動器系::問題編", "M3 2学期::運動器系::穴埋め編"], "cards": [{"deck": "M3 2学期", "tile_id": "tiles-0", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::データ分析に基づく研究講義", "tile_id": "tiles-1", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::女性内分泌・妊娠", "tile_id": "tiles-2", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::循環器Ⅱ", "tile_id": "tiles-3", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::性腺・生殖器", "tile_id": "tiles-4", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::消化器系Ⅱ", "tile_id": "tiles-5", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::神経系", "tile_id": "tiles-6", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::精神系", "tile_id": "tiles-7", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::耳鼻・咽喉・口腔系", "tile_id": "tiles-8", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::運動器系", "tile_id": "tiles-9", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::データ分析に基づく研究講義::問題編", "tile_id": "tiles-10", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::データ分析に基づく研究講義::穴埋め編", "tile_id": "tiles-11", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::女性内分泌・妊娠::問題編", "tile_id": "tiles-12", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::女性内分泌・妊娠::穴埋め編", "tile_id": "tiles-13", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::循環器Ⅱ::問題編", "tile_id": "tiles-14", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::循環器Ⅱ::穴埋め編", "tile_id": "tiles-15", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::性腺・生殖器::問題編", "tile_id": "tiles-16", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::性腺・生殖器::穴埋め編", "tile_id": "tiles-17", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::消化器系Ⅱ::問題編", "tile_id": "tiles-18", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::消化器系Ⅱ::穴埋め編", "tile_id": "tiles-19", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::神経系::問題編", "tile_id": "tiles-20", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::神経系::穴埋め編", "tile_id": "tiles-21", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::精神系::問題編", "tile_id": "tiles-22", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::精神系::穴埋め編", "tile_id": "tiles-23", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::耳鼻・咽喉・口腔系::問題編", "tile_id": "tiles-24", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::耳鼻・咽喉・口腔系::穴埋め編", "tile_id": "tiles-25", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::運動器系::問題編", "tile_id": "tiles-26", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::運動器系::穴埋め編", "tile_id": "tiles-27", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}], "category_totals": {"問題編合計": {"tile_id": "tiles-cat-0", "members": ["M3 2学期::データ分析に基づく研究講義::問題編", "M3 2学期::女性内分泌・妊娠::問題編", "M3 2学期::循環器Ⅱ::問題編", "M3 2学期::性腺・生殖器::問題編", "M3 2学期::消化器系Ⅱ::問題編", "M3 2学期::神経系::問題編", "M3 2学期::精神系::問題編", "M3 2学期::耳鼻・咽喉・口腔系::問題編", "M3 2学期::運動器系::問題編"], "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, "穴埋め編合計": {"tile_id": "tiles-cat-1", "members": ["M3 2学期::データ分析に基づく研究講義::穴埋め編", "M3 2学期::女性内分泌・妊娠::穴埋め編", "M3 2学期::循環器Ⅱ::穴埋め編", "M3 2学期::性腺・生殖器::穴埋め編", "M3 2学期::消化器系Ⅱ::穴埋め編", "M3 2学期::神経系::穴埋め編", "M3 2学期::精神系::穴埋め編", "M3 2学期::耳鼻・咽喉・口腔系::穴埋め編", "M3 2学期::運動器系::穴埋め編"], "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}}};
+const REFRESH_CONFIG = {"ankiconnect_url": "http://127.0.0.1:8765", "forecast_days": 30, "spike_threshold_ratio": 1.4, "leaf_decks": ["M3 2学期::データ分析に基づく研究講義::問題編", "M3 2学期::データ分析に基づく研究講義::穴埋め編", "M3 2学期::女性内分泌・妊娠::問題編", "M3 2学期::女性内分泌・妊娠::穴埋め編", "M3 2学期::循環器Ⅱ::問題編", "M3 2学期::循環器Ⅱ::穴埋め編", "M3 2学期::性腺・生殖器::問題編", "M3 2学期::性腺・生殖器::穴埋め編", "M3 2学期::消化器系Ⅱ::問題編", "M3 2学期::消化器系Ⅱ::穴埋め編", "M3 2学期::神経系::問題編", "M3 2学期::神経系::穴埋め編", "M3 2学期::精神系::問題編", "M3 2学期::精神系::穴埋め編", "M3 2学期::耳鼻・咽喉・口腔系::問題編", "M3 2学期::耳鼻・咽喉・口腔系::穴埋め編", "M3 2学期::運動器系::問題編", "M3 2学期::運動器系::穴埋め編"], "cards": [{"deck": "M3 2学期", "tile_id": "tiles-0", "pace_id": "pace-0", "chart_height": 200, "show_eta": true, "leaves": ["M3 2学期::データ分析に基づく研究講義::問題編", "M3 2学期::データ分析に基づく研究講義::穴埋め編", "M3 2学期::女性内分泌・妊娠::問題編", "M3 2学期::女性内分泌・妊娠::穴埋め編", "M3 2学期::循環器Ⅱ::問題編", "M3 2学期::循環器Ⅱ::穴埋め編", "M3 2学期::性腺・生殖器::問題編", "M3 2学期::性腺・生殖器::穴埋め編", "M3 2学期::消化器系Ⅱ::問題編", "M3 2学期::消化器系Ⅱ::穴埋め編", "M3 2学期::神経系::問題編", "M3 2学期::神経系::穴埋め編", "M3 2学期::精神系::問題編", "M3 2学期::精神系::穴埋め編", "M3 2学期::耳鼻・咽喉・口腔系::問題編", "M3 2学期::耳鼻・咽喉・口腔系::穴埋め編", "M3 2学期::運動器系::問題編", "M3 2学期::運動器系::穴埋め編"]}, {"deck": "M3 2学期::データ分析に基づく研究講義", "tile_id": "tiles-1", "pace_id": null, "chart_height": 140, "show_eta": true, "leaves": ["M3 2学期::データ分析に基づく研究講義::問題編", "M3 2学期::データ分析に基づく研究講義::穴埋め編"]}, {"deck": "M3 2学期::女性内分泌・妊娠", "tile_id": "tiles-2", "pace_id": null, "chart_height": 140, "show_eta": true, "leaves": ["M3 2学期::女性内分泌・妊娠::問題編", "M3 2学期::女性内分泌・妊娠::穴埋め編"]}, {"deck": "M3 2学期::循環器Ⅱ", "tile_id": "tiles-3", "pace_id": null, "chart_height": 140, "show_eta": true, "leaves": ["M3 2学期::循環器Ⅱ::問題編", "M3 2学期::循環器Ⅱ::穴埋め編"]}, {"deck": "M3 2学期::性腺・生殖器", "tile_id": "tiles-4", "pace_id": null, "chart_height": 140, "show_eta": true, "leaves": ["M3 2学期::性腺・生殖器::問題編", "M3 2学期::性腺・生殖器::穴埋め編"]}, {"deck": "M3 2学期::消化器系Ⅱ", "tile_id": "tiles-5", "pace_id": null, "chart_height": 140, "show_eta": true, "leaves": ["M3 2学期::消化器系Ⅱ::問題編", "M3 2学期::消化器系Ⅱ::穴埋め編"]}, {"deck": "M3 2学期::神経系", "tile_id": "tiles-6", "pace_id": null, "chart_height": 140, "show_eta": true, "leaves": ["M3 2学期::神経系::問題編", "M3 2学期::神経系::穴埋め編"]}, {"deck": "M3 2学期::精神系", "tile_id": "tiles-7", "pace_id": null, "chart_height": 140, "show_eta": true, "leaves": ["M3 2学期::精神系::問題編", "M3 2学期::精神系::穴埋め編"]}, {"deck": "M3 2学期::耳鼻・咽喉・口腔系", "tile_id": "tiles-8", "pace_id": null, "chart_height": 140, "show_eta": true, "leaves": ["M3 2学期::耳鼻・咽喉・口腔系::問題編", "M3 2学期::耳鼻・咽喉・口腔系::穴埋め編"]}, {"deck": "M3 2学期::運動器系", "tile_id": "tiles-9", "pace_id": null, "chart_height": 140, "show_eta": true, "leaves": ["M3 2学期::運動器系::問題編", "M3 2学期::運動器系::穴埋め編"]}, {"deck": "M3 2学期::データ分析に基づく研究講義::問題編", "tile_id": "tiles-10", "pace_id": "pace-10", "chart_height": 140, "show_eta": true, "leaves": ["M3 2学期::データ分析に基づく研究講義::問題編"]}, {"deck": "M3 2学期::データ分析に基づく研究講義::穴埋め編", "tile_id": "tiles-11", "pace_id": "pace-11", "chart_height": 140, "show_eta": true, "leaves": ["M3 2学期::データ分析に基づく研究講義::穴埋め編"]}, {"deck": "M3 2学期::女性内分泌・妊娠::問題編", "tile_id": "tiles-12", "pace_id": "pace-12", "chart_height": 140, "show_eta": true, "leaves": ["M3 2学期::女性内分泌・妊娠::問題編"]}, {"deck": "M3 2学期::女性内分泌・妊娠::穴埋め編", "tile_id": "tiles-13", "pace_id": "pace-13", "chart_height": 140, "show_eta": true, "leaves": ["M3 2学期::女性内分泌・妊娠::穴埋め編"]}, {"deck": "M3 2学期::循環器Ⅱ::問題編", "tile_id": "tiles-14", "pace_id": "pace-14", "chart_height": 140, "show_eta": true, "leaves": ["M3 2学期::循環器Ⅱ::問題編"]}, {"deck": "M3 2学期::循環器Ⅱ::穴埋め編", "tile_id": "tiles-15", "pace_id": "pace-15", "chart_height": 140, "show_eta": true, "leaves": ["M3 2学期::循環器Ⅱ::穴埋め編"]}, {"deck": "M3 2学期::性腺・生殖器::問題編", "tile_id": "tiles-16", "pace_id": "pace-16", "chart_height": 140, "show_eta": true, "leaves": ["M3 2学期::性腺・生殖器::問題編"]}, {"deck": "M3 2学期::性腺・生殖器::穴埋め編", "tile_id": "tiles-17", "pace_id": "pace-17", "chart_height": 140, "show_eta": true, "leaves": ["M3 2学期::性腺・生殖器::穴埋め編"]}, {"deck": "M3 2学期::消化器系Ⅱ::問題編", "tile_id": "tiles-18", "pace_id": "pace-18", "chart_height": 140, "show_eta": true, "leaves": ["M3 2学期::消化器系Ⅱ::問題編"]}, {"deck": "M3 2学期::消化器系Ⅱ::穴埋め編", "tile_id": "tiles-19", "pace_id": "pace-19", "chart_height": 140, "show_eta": true, "leaves": ["M3 2学期::消化器系Ⅱ::穴埋め編"]}, {"deck": "M3 2学期::神経系::問題編", "tile_id": "tiles-20", "pace_id": "pace-20", "chart_height": 140, "show_eta": true, "leaves": ["M3 2学期::神経系::問題編"]}, {"deck": "M3 2学期::神経系::穴埋め編", "tile_id": "tiles-21", "pace_id": "pace-21", "chart_height": 140, "show_eta": true, "leaves": ["M3 2学期::神経系::穴埋め編"]}, {"deck": "M3 2学期::精神系::問題編", "tile_id": "tiles-22", "pace_id": "pace-22", "chart_height": 140, "show_eta": true, "leaves": ["M3 2学期::精神系::問題編"]}, {"deck": "M3 2学期::精神系::穴埋め編", "tile_id": "tiles-23", "pace_id": "pace-23", "chart_height": 140, "show_eta": true, "leaves": ["M3 2学期::精神系::穴埋め編"]}, {"deck": "M3 2学期::耳鼻・咽喉・口腔系::問題編", "tile_id": "tiles-24", "pace_id": "pace-24", "chart_height": 140, "show_eta": true, "leaves": ["M3 2学期::耳鼻・咽喉・口腔系::問題編"]}, {"deck": "M3 2学期::耳鼻・咽喉・口腔系::穴埋め編", "tile_id": "tiles-25", "pace_id": "pace-25", "chart_height": 140, "show_eta": true, "leaves": ["M3 2学期::耳鼻・咽喉・口腔系::穴埋め編"]}, {"deck": "M3 2学期::運動器系::問題編", "tile_id": "tiles-26", "pace_id": "pace-26", "chart_height": 140, "show_eta": true, "leaves": ["M3 2学期::運動器系::問題編"]}, {"deck": "M3 2学期::運動器系::穴埋め編", "tile_id": "tiles-27", "pace_id": "pace-27", "chart_height": 140, "show_eta": true, "leaves": ["M3 2学期::運動器系::穴埋め編"]}], "category_totals": {"問題編合計": {"tile_id": "tiles-cat-0", "pace_id": "pace-cat-0", "chart_height": 140, "leaves": ["M3 2学期::データ分析に基づく研究講義::問題編", "M3 2学期::女性内分泌・妊娠::問題編", "M3 2学期::循環器Ⅱ::問題編", "M3 2学期::性腺・生殖器::問題編", "M3 2学期::消化器系Ⅱ::問題編", "M3 2学期::神経系::問題編", "M3 2学期::精神系::問題編", "M3 2学期::耳鼻・咽喉・口腔系::問題編", "M3 2学期::運動器系::問題編"]}, "穴埋め編合計": {"tile_id": "tiles-cat-1", "pace_id": "pace-cat-1", "chart_height": 140, "leaves": ["M3 2学期::データ分析に基づく研究講義::穴埋め編", "M3 2学期::女性内分泌・妊娠::穴埋め編", "M3 2学期::循環器Ⅱ::穴埋め編", "M3 2学期::性腺・生殖器::穴埋め編", "M3 2学期::消化器系Ⅱ::穴埋め編", "M3 2学期::神経系::穴埋め編", "M3 2学期::精神系::穴埋め編", "M3 2学期::耳鼻・咽喉・口腔系::穴埋め編", "M3 2学期::運動器系::穴埋め編"]}}};
 
 async function akInvoke(action, params) {
   const res = await fetch(REFRESH_CONFIG.ankiconnect_url, {
@@ -1420,10 +1420,127 @@ function renderTiles(snap, pace14, showEta) {
       const d = new Date(); d.setDate(d.getDate() + days);
       return `${days}日後 (${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')})`;
     };
-    html += tileHtml('終了予測（楽観）', etaFrom(rateOpt), '稼働日ペース基準・前回同期のペースを使用');
-    html += tileHtml('終了予測（現実的）', etaFrom(rateCons), '全日平均ペース基準・前回同期のペースを使用');
+    html += tileHtml('終了予測（楽観）', etaFrom(rateOpt), '稼働日ペース基準・ライブ集計');
+    html += tileHtml('終了予測（現実的）', etaFrom(rateCons), '全日平均ペース基準・ライブ集計');
+  }
+  if (pace14 && pace14.retention_pct != null) {
+    html += tileHtml('直近14日 正答率', pace14.retention_pct.toFixed(1) + '%');
+    html += tileHtml('直近14日 1日あたり復習', (pace14.reviews_per_day_all || 0).toFixed(1));
   }
   return html;
+}
+
+function localDateKey(ms) {
+  const d = new Date(ms);
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+async function fetchReviewStats(deck) {
+  const cardIds = await akInvoke('findCards', {query: `deck:"${deck}"`});
+  const introByDate = {}, activityByDate = {};
+  for (let i = 0; i < cardIds.length; i += 300) {
+    const chunk = cardIds.slice(i, i + 300);
+    const result = await akInvoke('getReviewsOfCards', {cards: chunk.map(String)});
+    for (const cardIdStr in result) {
+      const revs = result[cardIdStr];
+      if (!revs.length) continue;
+      const sorted = revs.slice().sort((a, b) => a.id - b.id);
+      const firstKey = localDateKey(sorted[0].id);
+      introByDate[firstKey] = (introByDate[firstKey] || 0) + 1;
+      for (const r of sorted) {
+        const key = localDateKey(r.id);
+        const a = activityByDate[key] || {reviews: 0, correct: 0};
+        a.reviews += 1;
+        if (r.ease >= 2) a.correct += 1;
+        activityByDate[key] = a;
+      }
+    }
+  }
+  return {introByDate, activityByDate};
+}
+
+function mergeStats(statsList) {
+  const introByDate = {}, activityByDate = {};
+  for (const s of statsList) {
+    if (!s) continue;
+    for (const k in s.introByDate) introByDate[k] = (introByDate[k] || 0) + s.introByDate[k];
+    for (const k in s.activityByDate) {
+      const a = activityByDate[k] || {reviews: 0, correct: 0};
+      a.reviews += s.activityByDate[k].reviews;
+      a.correct += s.activityByDate[k].correct;
+      activityByDate[k] = a;
+    }
+  }
+  return {introByDate, activityByDate};
+}
+
+function dateKeysBack(days) {
+  const out = [];
+  const today = new Date();
+  for (let i = days - 1; i >= 0; i--) {
+    const d = new Date(today); d.setDate(d.getDate() - i);
+    out.push(localDateKey(d.getTime()));
+  }
+  return out;
+}
+
+function computeLivePace14(stats) {
+  const keys = dateKeysBack(14);
+  let newSum = 0, reviewsSum = 0, correctSum = 0, activeDays = 0;
+  for (const k of keys) {
+    newSum += stats.introByDate[k] || 0;
+    const a = stats.activityByDate[k];
+    if (a) { reviewsSum += a.reviews; correctSum += a.correct; if (a.reviews > 0) activeDays++; }
+  }
+  return {
+    new_per_day_all: newSum / 14,
+    new_per_day_active: activeDays ? newSum / activeDays : null,
+    reviews_per_day_all: reviewsSum / 14,
+    retention_pct: reviewsSum ? 100 * correctSum / reviewsSum : null,
+  };
+}
+
+function buildDailySeries(stats, days) {
+  return dateKeysBack(days).map((key) => {
+    const newN = stats.introByDate[key] || 0;
+    const totalN = (stats.activityByDate[key] || {}).reviews || 0;
+    return {date: key, new: newN, review_only: Math.max(0, totalN - newN)};
+  });
+}
+
+function stackedBarChartSvg(newVals, reviewVals, labels, height) {
+  height = height || 200;
+  const width = 860, plotH = height - 30, plotW = width;
+  const n = newVals.length;
+  if (!n) return "<p class='empty'>データがありません</p>";
+  const totals = newVals.map((v, i) => v + reviewVals[i]);
+  const vmax = Math.max(1, ...totals);
+  const slotW = plotW / n, barW = Math.min(24, slotW - 2), xOff = (slotW - barW) / 2, gap = 2;
+
+  let grid = '';
+  for (let i = 0; i <= 3; i++) {
+    const frac = i / 3, y = plotH - frac * plotH, val = Math.round(vmax * frac);
+    grid += `<line x1="0" y1="${y.toFixed(1)}" x2="${plotW}" y2="${y.toFixed(1)}" class="gridline"/>` +
+            `<text x="-6" y="${y.toFixed(1)}" class="axis-label" text-anchor="end" dominant-baseline="middle">${val}</text>`;
+  }
+  const labelStep = Math.max(1, Math.floor(n / 10));
+  let bars = '';
+  for (let i = 0; i < n; i++) {
+    const nv = newVals[i], rv = reviewVals[i];
+    const x = i * slotW + xOff;
+    const newH = (nv / vmax) * plotH, revH = (rv / vmax) * plotH;
+    const yNew = plotH - newH;
+    const yRev = yNew - (revH > 0 && newH > 0 ? gap : 0) - revH;
+    const label = labels[i];
+    if (newH > 0) bars += `<rect x="${x.toFixed(1)}" y="${yNew.toFixed(1)}" width="${barW.toFixed(1)}" height="${newH.toFixed(1)}" rx="4" fill="var(--series-1)"><title>${label}: 新規 ${nv}</title></rect>`;
+    if (revH > 0) bars += `<rect x="${x.toFixed(1)}" y="${yRev.toFixed(1)}" width="${barW.toFixed(1)}" height="${revH.toFixed(1)}" rx="4" fill="var(--series-2)"><title>${label}: 復習 ${rv}</title></rect>`;
+    if (i % labelStep === 0 || i === n - 1) {
+      bars += `<text x="${(i*slotW+slotW/2).toFixed(1)}" y="${plotH+16}" class="axis-label" text-anchor="middle">${label}</text>`;
+    }
+  }
+  const legend = `<div class="legend"><span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>` +
+                 `<span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span></div>`;
+  return legend + `<svg viewBox="0 0 ${width} ${height}" class="chart" role="img" preserveAspectRatio="none"><g transform="translate(40,4)">${grid}${bars}</g></svg>`;
 }
 
 async function fetchSnapshot(deck) {
@@ -1495,21 +1612,50 @@ async function refreshFromAnki() {
       status.textContent = `デッキ情報を取得中... (${doneCount}/${decks.length})`;
     });
 
+    const leafReviewStats = {};
+    let reviewDone = 0;
+    status.textContent = `復習履歴を取得中... (0/${REFRESH_CONFIG.leaf_decks.length})`;
+    await mapLimit(REFRESH_CONFIG.leaf_decks, 3, async (deck) => {
+      leafReviewStats[deck] = await fetchReviewStats(deck);
+      reviewDone++;
+      status.textContent = `復習履歴を取得中... (${reviewDone}/${REFRESH_CONFIG.leaf_decks.length})`;
+    });
+
     for (const card of REFRESH_CONFIG.cards) {
+      const merged = mergeStats((card.leaves || []).map(d => leafReviewStats[d]));
+      const livePace14 = computeLivePace14(merged);
       const el = document.getElementById(card.tile_id);
-      if (el && snapshots[card.deck]) el.innerHTML = renderTiles(snapshots[card.deck], card.pace14, card.show_eta);
+      if (el && snapshots[card.deck]) el.innerHTML = renderTiles(snapshots[card.deck], livePace14, card.show_eta);
+      if (card.pace_id) {
+        const chartEl = document.getElementById(card.pace_id);
+        if (chartEl) {
+          const series = buildDailySeries(merged, 30);
+          chartEl.innerHTML = stackedBarChartSvg(series.map(d => d.new), series.map(d => d.review_only),
+                                                  series.map(d => d.date.slice(5)), card.chart_height);
+        }
+      }
     }
 
     for (const [name, cat] of Object.entries(REFRESH_CONFIG.category_totals)) {
-      const members = cat.members.map(m => snapshots[m]).filter(Boolean);
+      const members = cat.leaves.map(m => snapshots[m]).filter(Boolean);
       if (!members.length) continue;
       const sum = (key) => members.reduce((a, s) => a + (s[key] || 0), 0);
-      const merged = {
+      const mergedSnap = {
         new_count: sum('new_count'), learning_count: sum('learning_count'),
         due_count: sum('due_count'), total_count: sum('total_count'), suspended_count: sum('suspended_count'),
       };
+      const mergedStats = mergeStats(cat.leaves.map(d => leafReviewStats[d]));
+      const livePace14 = computeLivePace14(mergedStats);
       const el = document.getElementById(cat.tile_id);
-      if (el) el.innerHTML = renderTiles(merged, cat.pace14, true);
+      if (el) el.innerHTML = renderTiles(mergedSnap, livePace14, true);
+      if (cat.pace_id) {
+        const chartEl = document.getElementById(cat.pace_id);
+        if (chartEl) {
+          const series = buildDailySeries(mergedStats, 30);
+          chartEl.innerHTML = stackedBarChartSvg(series.map(d => d.new), series.map(d => d.review_only),
+                                                  series.map(d => d.date.slice(5)), cat.chart_height);
+        }
+      }
     }
 
     const leafDecks = REFRESH_CONFIG.leaf_decks;
