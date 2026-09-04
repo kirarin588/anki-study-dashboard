@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+</head>
+<body>
+<title>M3 2学期 試験逆算シミュレーション</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  .sim-root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page:           #f4f3ee;
+    --text-primary:   #171512;
+    --text-secondary: #58554e;
+    --text-muted:     #8b877d;
+    --gridline:       #e4e1d7;
+    --baseline:       #c7c3b6;
+    --series-1:       #2a78d6;
+    --series-2:       #eb6834;
+    --series-3:       #1baf7a;
+    --status-good:    #0ca30c;
+    --status-warning: #fab219;
+    --status-critical:#d03b3b;
+    --border:         rgba(23,21,18,0.09);
+    --accent-wash:    rgba(42,120,214,0.06);
+    --font-display:   "Zen Maru Gothic", "Hiragino Maru Gothic ProN", system-ui, sans-serif;
+    --font-body:      "Noto Sans JP", "Hiragino Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: var(--page);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    padding: 28px 24px 56px;
+    max-width: 1040px;
+    margin: 0 auto;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .sim-root {
+      color-scheme: dark;
+      --surface-1: #201f1a; --page: #131210; --text-primary: #f7f5f0;
+      --text-secondary: #c7c3b6; --text-muted: #938e82; --gridline: #322f28;
+      --baseline: #454136; --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70;
+      --status-good: #0ca30c; --status-warning: #fab219; --status-critical: #e66767;
+      --border: rgba(247,245,240,0.10); --accent-wash: rgba(57,135,229,0.10);
+    }
+  }
+  :root[data-theme="dark"] .sim-root {
+    color-scheme: dark;
+    --surface-1: #201f1a; --page: #131210; --text-primary: #f7f5f0;
+    --text-secondary: #c7c3b6; --text-muted: #938e82; --gridline: #322f28;
+    --baseline: #454136; --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70;
+    --status-good: #0ca30c; --status-warning: #fab219; --status-critical: #e66767;
+    --border: rgba(247,245,240,0.10); --accent-wash: rgba(57,135,229,0.10);
+  }
+  .sim-root * { box-sizing: border-box; }
+  .sim-root h1 { font-family: var(--font-display); font-weight: 700; font-size: 26px; margin: 0 0 4px; text-wrap: balance; }
+  .sim-root .meta { color: var(--text-secondary); font-size: 13px; margin-bottom: 8px; }
+  .sim-root .backlink { font-size: 13px; margin-bottom: 24px; }
+  .sim-root .backlink a { color: var(--series-1); text-decoration: none; }
+  .sim-root .backlink a:hover { text-decoration: underline; }
+  .sim-root h2 { font-family: var(--font-display); font-weight: 700; font-size: 17px; margin: 0 0 4px; }
+  .sim-root .section-desc { color: var(--text-secondary); font-size: 12.5px; margin: 0 0 16px; line-height: 1.6; }
+  .panel {
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 22px 20px;
+    margin-bottom: 18px;
+  }
+  .field-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px 16px; }
+  .field { display: flex; align-items: center; justify-content: space-between; gap: 10px;
+           background: var(--page); border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; }
+  .field label { font-size: 12.5px; color: var(--text-secondary); }
+  .field input[type=number] {
+    width: 64px; font-family: var(--font-display); font-weight: 700; font-size: 15px;
+    text-align: right; border: none; background: transparent; color: var(--text-primary);
+    font-variant-numeric: tabular-nums;
+  }
+  .field input[type=number]:focus { outline: 2px solid var(--series-1); outline-offset: 2px; border-radius: 4px; }
+  .controls-row { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; margin-bottom: 16px; }
+  .controls-row .field { min-width: 200px; }
+  .controls-row input[type=date] {
+    font-family: var(--font-body); font-size: 13px; border: none; background: transparent; color: var(--text-primary);
+  }
+  button.reset-btn {
+    font-family: var(--font-body); font-size: 12.5px; font-weight: 600; color: var(--series-1);
+    background: var(--accent-wash); border: 1px solid var(--border); border-radius: 8px;
+    padding: 7px 14px; cursor: pointer;
+  }
+  button.reset-btn:hover { filter: brightness(0.97); }
+  .tiles { display: flex; flex-wrap: wrap; gap: 16px 24px; margin-bottom: 4px; }
+  .tile { min-width: 150px; }
+  .tile-label { font-size: 12px; color: var(--text-secondary); }
+  .tile-value { font-family: var(--font-display); font-weight: 700; font-size: 22px; margin-top: 2px; font-variant-numeric: proportional-nums; }
+  .tile-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .status-pill { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 600;
+                 padding: 4px 12px; border-radius: 999px; margin-bottom: 14px; }
+  .status-pill.ok { background: color-mix(in srgb, var(--status-good) 16%, transparent); color: var(--status-good); }
+  .status-pill.ng { background: color-mix(in srgb, var(--status-critical) 16%, transparent); color: var(--status-critical); }
+  table.subj-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 10px; }
+  table.subj-table th, table.subj-table td { text-align: right; padding: 7px 10px; border-bottom: 1px solid var(--border); }
+  table.subj-table th:first-child, table.subj-table td:first-child { text-align: left; }
+  table.subj-table th { color: var(--text-secondary); font-weight: 600; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.03em; }
+  table.subj-table td { font-variant-numeric: tabular-nums; }
+  td.ok { color: var(--status-good); font-weight: 600; }
+  td.ng { color: var(--status-critical); font-weight: 600; }
+  .chart-wrap { overflow-x: auto; }
+  .chart { width: 100%; height: auto; min-width: 480px; }
+  .gridline { stroke: var(--gridline); stroke-width: 1; }
+  .axis-label { fill: var(--text-muted); font-size: 10px; font-family: var(--font-body); }
+  .legend { display: flex; gap: 16px; margin: 4px 0 8px; font-size: 12px; color: var(--text-secondary); flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .swatch { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+  .swatch.line { width: 14px; height: 3px; border-radius: 2px; }
+  .note { font-size: 11.5px; color: var(--text-muted); margin-top: 10px; line-height: 1.6; }
+  .scenario-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+  .scenario-chip { display: flex; align-items: center; gap: 8px; background: var(--page); border: 1px solid var(--border);
+                    border-radius: 999px; padding: 6px 14px; font-size: 12.5px; }
+  .scenario-chip input { width: 44px; border: none; background: transparent; color: var(--text-primary); font-weight: 700;
+                          font-family: var(--font-display); text-align: right; }
+</style>
+
+<div class="sim-root">
+  <h1>試験逆算シミュレーション</h1>
+  <div class="meta">FSRS-6（Ankiが最適化した係数・目標保持率87%）で、既存カードと未消化の新規カードを合わせた将来の復習負荷をその場で試算します。</div>
+  <div class="backlink"><a href="./index.html" target="_blank" rel="noopener">← 進捗ダッシュボードに戻る</a></div>
+
+  <section class="panel">
+    <h2>1. 科目ごとの1日の新規ノルマ</h2>
+    <p class="section-desc">これが全てのシミュレーションの土台です。数字を変えると下の結果が全て自動で再計算されます。</p>
+    <div class="controls-row">
+      <div class="field"><label for="examDate">試験日</label><input type="date" id="examDate" value="2027-01-04"></div>
+      <div class="field"><label for="bufferDays">試験前の仕上げ期間（日）</label><input type="number" id="bufferDays" value="14" min="0" max="90"></div>
+      <button class="reset-btn" id="resetPaceBtn" type="button">直近14日の実ペースに戻す</button>
+    </div>
+    <div class="field-grid" id="paceInputs"></div>
+  </section>
+
+  <section class="panel">
+    <h2>2. 試験までの実現可能性</h2>
+    <p class="section-desc">上のノルマを試験日まで続けた場合、仕上げ期間を確保して全科目の新規カードを消化しきれるか。</p>
+    <div id="feasibilityBanner"></div>
+    <div class="chart-wrap"><table class="subj-table" id="feasibilityTable"></table></div>
+  </section>
+
+  <section class="panel">
+    <h2>3. 必要ペースの逆算 / いつから本気を出すべきか</h2>
+    <p class="section-desc">「試験前の仕上げ期間」までに終えるには、科目ごとに1日何枚必要か。右側は、今の1日ノルマを何倍かした「本気ペース」で走った場合に、今日から何日遅らせても間に合うか（＝いつまでに始めればよいか）。</p>
+    <div class="controls-row">
+      <div class="field"><label for="seriousMult">本気を出したときのペース（今の設定の何倍か）</label><input type="number" id="seriousMult" value="1.5" min="0.1" step="0.1"></div>
+    </div>
+    <div class="chart-wrap"><table class="subj-table" id="requiredPaceTable"></table></div>
+  </section>
+
+  <section class="panel">
+    <h2>4. 将来の複合負荷カレンダー（FSRSシミュレーション）</h2>
+    <p class="section-desc">上の「1日の新規ノルマ」で新規カードを導入し続けた場合に生まれる、既存カード分＋新規カード分を合わせた1日あたりの想定復習数（モンテカルロ平均）。試験日を縦線で表示します。</p>
+    <div class="legend">
+      <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規カード</span>
+      <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>既存カードの復習</span>
+    </div>
+    <div class="chart-wrap"><div class="chart" id="loadChart"></div></div>
+    <div class="tiles" id="loadTiles"></div>
+    <p class="note">※ 学習ステップ（分・時間単位の再提示）は日単位のシミュレーションでは省略し、1日1回の判定として近似しています。カード個別の記憶状態（安定度）はAnkiから直接取得できないため、実際の復習履歴からFSRS-6の式で逆算した近似値を使っています。新規カードの初回評価の分布は今までに実際に学習した範囲の実績から推定しているため、学習実績が少ないうちは精度が粗く、学習が進むほど正確になります。</p>
+  </section>
+
+  <section class="panel">
+    <h2>5. 複数ペース案の比較</h2>
+    <p class="section-desc">「1日のノルマ」を基準に、他のペースだったらどうなるかを重ねて比較します。倍率は自由に変更できます。</p>
+    <div class="scenario-row">
+      <span class="scenario-chip"><span class="swatch line" style="background:var(--series-1)"></span>現在の設定 ×<span id="scenA">1.0</span></span>
+      <span class="scenario-chip"><span class="swatch line" style="background:var(--series-2)"></span>×<input type="number" id="scenB" value="1.5" min="0.1" step="0.1"></span>
+      <span class="scenario-chip"><span class="swatch line" style="background:var(--series-3)"></span>×<input type="number" id="scenC" value="2.0" min="0.1" step="0.1"></span>
+    </div>
+    <div class="chart-wrap"><div class="chart" id="scenarioChart"></div></div>
+    <div class="chart-wrap"><table class="subj-table" id="scenarioTable"></table></div>
+  </section>
+</div>
+
+<script>
+const EXPORT_DATA = {"generated_at": "2026-09-04T10:32:06", "today_day": 20700, "exam_date": "2027-01-04", "decks": {"M3 2学期::データ分析に基づく研究講義::問題編": {"weights": [0.13224812, 0.29878494, 2.6388066, 16.877222, 6.668705, 0.56678987, 3.1474931, 0.019231508, 1.5403988, 0.04999137, 0.4772872, 1.5072576, 0.0423887, 0.34169352, 1.7153254, 0.6034533, 1.8729, 0.998634, 0.06801109, 0.32040277, 0.44977543], "weights_version": "fsrsParams6", "desired_retention": 0.87, "max_interval": 36500, "new_remaining": 153, "seen_cards": []}, "M3 2学期::データ分析に基づく研究講義::穴埋め編": {"weights": [0.13224812, 0.29878494, 2.6388066, 16.877222, 6.668705, 0.56678987, 3.1474931, 0.019231508, 1.5403988, 0.04999137, 0.4772872, 1.5072576, 0.0423887, 0.34169352, 1.7153254, 0.6034533, 1.8729, 0.998634, 0.06801109, 0.32040277, 0.44977543], "weights_version": "fsrsParams6", "desired_retention": 0.87, "max_interval": 36500, "new_remaining": 493, "seen_cards": []}, "M3 2学期::女性内分泌・妊娠::問題編": {"weights": [0.13224812, 0.29878494, 2.6388066, 16.877222, 6.668705, 0.56678987, 3.1474931, 0.019231508, 1.5403988, 0.04999137, 0.4772872, 1.5072576, 0.0423887, 0.34169352, 1.7153254, 0.6034533, 1.8729, 0.998634, 0.06801109, 0.32040277, 0.44977543], "weights_version": "fsrsParams6", "desired_retention": 0.87, "max_interval": 36500, "new_remaining": 125, "seen_cards": []}, "M3 2学期::女性内分泌・妊娠::穴埋め編": {"weights": [0.13224812, 0.29878494, 2.6388066, 16.877222, 6.668705, 0.56678987, 3.1474931, 0.019231508, 1.5403988, 0.04999137, 0.4772872, 1.5072576, 0.0423887, 0.34169352, 1.7153254, 0.6034533, 1.8729, 0.998634, 0.06801109, 0.32040277, 0.44977543], "weights_version": "fsrsParams6", "desired_retention": 0.87, "max_interval": 36500, "new_remaining": 503, "seen_cards": []}, "M3 2学期::循環器Ⅱ::問題編": {"weights": [0.13224812, 0.29878494, 2.6388066, 16.877222, 6.668705, 0.56678987, 3.1474931, 0.019231508, 1.5403988, 0.04999137, 0.4772872, 1.5072576, 0.0423887, 0.34169352, 1.7153254, 0.6034533, 1.8729, 0.998634, 0.06801109, 0.32040277, 0.44977543], "weights_version": "fsrsParams6", "desired_retention": 0.87, "max_interval": 36500, "new_remaining": 96, "seen_cards": []}, "M3 2学期::循環器Ⅱ::穴埋め編": {"weights": [0.13224812, 0.29878494, 2.6388066, 16.877222, 6.668705, 0.56678987, 3.1474931, 0.019231508, 1.5403988, 0.04999137, 0.4772872, 1.5072576, 0.0423887, 0.34169352, 1.7153254, 0.6034533, 1.8729, 0.998634, 0.06801109, 0.32040277, 0.44977543], "weights_version": "fsrsParams6", "desired_retention": 0.87, "max_interval": 36500, "new_remaining": 240, "seen_cards": []}, "M3 2学期::性腺・生殖器::問題編": {"weights": [0.13224812, 0.29878494, 2.6388066, 16.877222, 6.668705, 0.56678987, 3.1474931, 0.019231508, 1.5403988, 0.04999137, 0.4772872, 1.5072576, 0.0423887, 0.34169352, 1.7153254, 0.6034533, 1.8729, 0.998634, 0.06801109, 0.32040277, 0.44977543], "weights_version": "fsrsParams6", "desired_retention": 0.87, "max_interval": 36500, "new_remaining": 201, "seen_cards": []}, "M3 2学期::性腺・生殖器::穴埋め編": {"weights": [0.13224812, 0.29878494, 2.6388066, 16.877222, 6.668705, 0.56678987, 3.1474931, 0.019231508, 1.5403988, 0.04999137, 0.4772872, 1.5072576, 0.0423887, 0.34169352, 1.7153254, 0.6034533, 1.8729, 0.998634, 0.06801109, 0.32040277, 0.44977543], "weights_version": "fsrsParams6", "desired_retention": 0.87, "max_interval": 36500, "new_remaining": 402, "seen_cards": []}, "M3 2学期::消化器系Ⅱ::問題編": {"weights": [0.13224812, 0.29878494, 2.6388066, 16.877222, 6.668705, 0.56678987, 3.1474931, 0.019231508, 1.5403988, 0.04999137, 0.4772872, 1.5072576, 0.0423887, 0.34169352, 1.7153254, 0.6034533, 1.8729, 0.998634, 0.06801109, 0.32040277, 0.44977543], "weights_version": "fsrsParams6", "desired_retention": 0.87, "max_interval": 36500, "new_remaining": 368, "seen_cards": []}, "M3 2学期::消化器系Ⅱ::穴埋め編": {"weights": [0.13224812, 0.29878494, 2.6388066, 16.877222, 6.668705, 0.56678987, 3.1474931, 0.019231508, 1.5403988, 0.04999137, 0.4772872, 1.5072576, 0.0423887, 0.34169352, 1.7153254, 0.6034533, 1.8729, 0.998634, 0.06801109, 0.32040277, 0.44977543], "weights_version": "fsrsParams6", "desired_retention": 0.87, "max_interval": 36500, "new_remaining": 509, "seen_cards": []}, "M3 2学期::神経系::問題編": {"weights": [0.13224812, 0.29878494, 2.6388066, 16.877222, 6.668705, 0.56678987, 3.1474931, 0.019231508, 1.5403988, 0.04999137, 0.4772872, 1.5072576, 0.0423887, 0.34169352, 1.7153254, 0.6034533, 1.8729, 0.998634, 0.06801109, 0.32040277, 0.44977543], "weights_version": "fsrsParams6", "desired_retention": 0.87, "max_interval": 36500, "new_remaining": 123, "seen_cards": [[[20677, 3]], [[20677, 1], [20677, 3]], [[20677, 3]], [[20677, 1]], [[20677, 1]], [[20677, 1]]]}, "M3 2学期::神経系::穴埋め編": {"weights": [0.13224812, 0.29878494, 2.6388066, 16.877222, 6.668705, 0.56678987, 3.1474931, 0.019231508, 1.5403988, 0.04999137, 0.4772872, 1.5072576, 0.0423887, 0.34169352, 1.7153254, 0.6034533, 1.8729, 0.998634, 0.06801109, 0.32040277, 0.44977543], "weights_version": "fsrsParams6", "desired_retention": 0.87, "max_interval": 36500, "new_remaining": 724, "seen_cards": [[[20662, 1], [20662, 3], [20670, 3], [20677, 1], [20677, 3]], [[20662, 1], [20662, 1], [20670, 1], [20670, 3], [20677, 3]], [[20662, 3], [20670, 3]], [[20662, 1], [20662, 3], [20670, 1], [20670, 3], [20677, 3]], [[20662, 3], [20670, 3]], [[20662, 1], [20662, 1], [20662, 3], [20670, 3], [20677, 1], [20677, 3]], [[20662, 1], [20662, 3], [20670, 3], [20677, 3]], [[20662, 3], [20670, 1], [20670, 3], [20677, 1], [20677, 3]], [[20662, 1], [20662, 3], [20670, 3], [20677, 1], [20677, 3]], [[20662, 1], [20662, 1], [20662, 1], [20670, 1], [20670, 1], [20670, 1], [20670, 3], [20677, 3]], [[20662, 1], [20662, 1], [20662, 1], [20670, 1], [20670, 1], [20670, 1], [20670, 1], [20677, 1], [20677, 1], [20677, 1], [20677, 1]], [[20662, 3], [20670, 3]], [[20662, 3], [20670, 3]], [[20662, 1], [20662, 1], [20670, 1], [20670, 1], [20670, 1], [20670, 1], [20670, 1], [20677, 1], [20677, 1], [20677, 1]], [[20662, 1], [20662, 3], [20670, 3], [20677, 1], [20677, 1], [20677, 3]], [[20662, 1], [20662, 1], [20670, 1], [20670, 3], [20677, 1], [20677, 3]], [[20662, 1], [20662, 1], [20670, 1], [20670, 3], [20677, 1], [20677, 3]], [[20662, 1], [20662, 1], [20670, 1], [20670, 1], [20670, 1], [20670, 3], [20677, 1], [20677, 1], [20677, 3]], [[20662, 1], [20662, 1], [20670, 1], [20670, 1], [20670, 1], [20670, 1], [20677, 1], [20677, 1], [20677, 1], [20677, 1]], [[20662, 1], [20662, 1], [20670, 1], [20670, 1], [20670, 1], [20670, 1], [20677, 1], [20677, 1], [20677, 1], [20677, 3]], [[20662, 1], [20662, 1], [20670, 1], [20670, 1], [20670, 1], [20670, 1], [20677, 1], [20677, 1], [20677, 3]], [[20662, 1], [20662, 1], [20670, 1], [20670, 3], [20677, 3]], [[20662, 1], [20662, 1], [20670, 3], [20677, 1], [20677, 1], [20677, 3]], [[20662, 1], [20662, 3], [20670, 3], [20677, 3]], [[20662, 1], [20662, 1], [20670, 3], [20677, 3]], [[20662, 1], [20662, 3], [20670, 3], [20677, 3]]]}, "M3 2学期::精神系::問題編": {"weights": [0.13224812, 0.29878494, 2.6388066, 16.877222, 6.668705, 0.56678987, 3.1474931, 0.019231508, 1.5403988, 0.04999137, 0.4772872, 1.5072576, 0.0423887, 0.34169352, 1.7153254, 0.6034533, 1.8729, 0.998634, 0.06801109, 0.32040277, 0.44977543], "weights_version": "fsrsParams6", "desired_retention": 0.87, "max_interval": 36500, "new_remaining": 251, "seen_cards": []}, "M3 2学期::精神系::穴埋め編": {"weights": [0.13224812, 0.29878494, 2.6388066, 16.877222, 6.668705, 0.56678987, 3.1474931, 0.019231508, 1.5403988, 0.04999137, 0.4772872, 1.5072576, 0.0423887, 0.34169352, 1.7153254, 0.6034533, 1.8729, 0.998634, 0.06801109, 0.32040277, 0.44977543], "weights_version": "fsrsParams6", "desired_retention": 0.87, "max_interval": 36500, "new_remaining": 777, "seen_cards": []}, "M3 2学期::耳鼻・咽喉・口腔系::問題編": {"weights": [0.13224812, 0.29878494, 2.6388066, 16.877222, 6.668705, 0.56678987, 3.1474931, 0.019231508, 1.5403988, 0.04999137, 0.4772872, 1.5072576, 0.0423887, 0.34169352, 1.7153254, 0.6034533, 1.8729, 0.998634, 0.06801109, 0.32040277, 0.44977543], "weights_version": "fsrsParams6", "desired_retention": 0.87, "max_interval": 36500, "new_remaining": 115, "seen_cards": []}, "M3 2学期::耳鼻・咽喉・口腔系::穴埋め編": {"weights": [0.13224812, 0.29878494, 2.6388066, 16.877222, 6.668705, 0.56678987, 3.1474931, 0.019231508, 1.5403988, 0.04999137, 0.4772872, 1.5072576, 0.0423887, 0.34169352, 1.7153254, 0.6034533, 1.8729, 0.998634, 0.06801109, 0.32040277, 0.44977543], "weights_version": "fsrsParams6", "desired_retention": 0.87, "max_interval": 36500, "new_remaining": 537, "seen_cards": []}, "M3 2学期::運動器系::問題編": {"weights": [0.13224812, 0.29878494, 2.6388066, 16.877222, 6.668705, 0.56678987, 3.1474931, 0.019231508, 1.5403988, 0.04999137, 0.4772872, 1.5072576, 0.0423887, 0.34169352, 1.7153254, 0.6034533, 1.8729, 0.998634, 0.06801109, 0.32040277, 0.44977543], "weights_version": "fsrsParams6", "desired_retention": 0.87, "max_interval": 36500, "new_remaining": 250, "seen_cards": []}, "M3 2学期::運動器系::穴埋め編": {"weights": [0.13224812, 0.29878494, 2.6388066, 16.877222, 6.668705, 0.56678987, 3.1474931, 0.019231508, 1.5403988, 0.04999137, 0.4772872, 1.5072576, 0.0423887, 0.34169352, 1.7153254, 0.6034533, 1.8729, 0.998634, 0.06801109, 0.32040277, 0.44977543], "weights_version": "fsrsParams6", "desired_retention": 0.87, "max_interval": 36500, "new_remaining": 614, "seen_cards": []}}, "first_rating_distribution": {"1": 25, "2": 0, "3": 7, "4": 0}, "success_grade_distribution": {"2": 0, "3": 49, "4": 0}};
+const SUBJECTS = ["データ分析に基づく研究講義", "女性内分泌・妊娠", "循環器Ⅱ", "性腺・生殖器", "消化器系Ⅱ", "神経系", "精神系", "耳鼻・咽喉・口腔系", "運動器系"];
+const DEFAULT_PACE = {"データ分析に基づく研究講義": 10.0, "女性内分泌・妊娠": 10.0, "循環器Ⅱ": 10.0, "性腺・生殖器": 10.0, "消化器系Ⅱ": 10.0, "神経系": 10.0, "精神系": 10.0, "耳鼻・咽喉・口腔系": 10.0, "運動器系": 10.0};
+const DAY_MS = 86400000;
+const TODAY_DAY = EXPORT_DATA.today_day;
+
+// ---------- FSRS-6 core (matches open-spaced-repetition/py-fsrs scheduler.py) ----------
+function clamp(v, lo, hi) { return Math.min(Math.max(v, lo), hi); }
+function decayOf(w) { return -w[20]; }
+function factorOf(w) { const D = decayOf(w); return Math.pow(0.9, 1 / D) - 1; }
+function retrievability(t, S, w) {
+  const D = decayOf(w), F = factorOf(w);
+  return Math.pow(1 + F * t / S, D);
+}
+function initialStability(w, g) { return Math.max(w[g - 1], 0.001); }
+function initialDifficultyRaw(w, g) { return w[4] - Math.exp(w[5] * (g - 1)) + 1; }
+function initialDifficulty(w, g) { return clamp(initialDifficultyRaw(w, g), 1, 10); }
+function nextDifficulty(w, D, g) {
+  const deltaD = -(w[6] * (g - 3));
+  const damped = D + (10 - D) * deltaD / 9;
+  const arg1 = initialDifficultyRaw(w, 4);
+  return clamp(w[7] * arg1 + (1 - w[7]) * damped, 1, 10);
+}
+function shortTermStability(w, S, g) {
+  let inc = Math.exp(w[17] * (g - 3 + w[18])) * Math.pow(S, -w[19]);
+  if (g >= 2) inc = Math.max(inc, 1.0);
+  return Math.max(S * inc, 0.001);
+}
+function nextRecallStability(w, D, S, R, g) {
+  const hardPenalty = g === 2 ? w[15] : 1;
+  const easyBonus = g === 4 ? w[16] : 1;
+  const s = S * (1 + Math.exp(w[8]) * (11 - D) * Math.pow(S, -w[9]) *
+            (Math.exp((1 - R) * w[10]) - 1) * hardPenalty * easyBonus);
+  return Math.max(s, 0.001);
+}
+function nextForgetStability(w, D, S, R) {
+  const long = w[11] * Math.pow(D, -w[12]) * (Math.pow(S + 1, w[13]) - 1) * Math.exp((1 - R) * w[14]);
+  const short = S / Math.exp(w[17] * w[18]);
+  return Math.max(Math.min(long, short), 0.001);
+}
+function nextStability(w, D, S, R, g) { return g === 1 ? nextForgetStability(w, D, S, R) : nextRecallStability(w, D, S, R, g); }
+function nextIntervalDays(w, S, DR, maxIvl) {
+  const D = decayOf(w), F = factorOf(w);
+  let iv = Math.round((S / F) * (Math.pow(DR, 1 / D) - 1));
+  return Math.min(Math.max(iv, 1), maxIvl);
+}
+
+function replayCard(w, history) {
+  let S = null, D = null, lastDay = null;
+  for (const [day, g] of history) {
+    if (S === null) {
+      S = initialStability(w, g); D = initialDifficulty(w, g);
+    } else {
+      const elapsed = day - lastDay;
+      if (elapsed < 1) {
+        S = shortTermStability(w, S, g);
+      } else {
+        const R = retrievability(elapsed, S, w);
+        S = nextStability(w, D, S, R, g);
+      }
+      D = nextDifficulty(w, D, g);
+    }
+    lastDay = day;
+  }
+  return { S, D, lastDay };
+}
+
+// ---------- rating sampler (empirical distributions from this profile's own history) ----------
+function makeSampler(dist, fallback) {
+  const entries = Object.entries(dist).map(([k, v]) => [parseInt(k), v]).filter(([, v]) => v > 0);
+  const total = entries.reduce((a, [, v]) => a + v, 0);
+  if (total < 5) return () => fallback;
+  return (rng) => {
+    let r = rng() * total;
+    for (const [g, v] of entries) { r -= v; if (r <= 0) return g; }
+    return entries[entries.length - 1][0];
+  };
+}
+const sampleFirstGrade = makeSampler(EXPORT_DATA.first_rating_distribution, 3);
+const sampleSuccessGrade = makeSampler(EXPORT_DATA.success_grade_distribution, 3);
+
+function mulberry32(seed) {
+  return function() {
+    seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+// ---------- precompute: replay every seen card once (deterministic, reused across all recomputes) ----------
+const REPLAYED = {};
+for (const [deck, d] of Object.entries(EXPORT_DATA.decks)) {
+  REPLAYED[deck] = d.seen_cards.map(h => replayCard(d.weights, h));
+}
+
+function leafDecksOf(subject) {
+  return Object.keys(EXPORT_DATA.decks).filter(d => d.includes('::' + subject + '::'));
+}
+
+// ---------- deterministic: new-card introduction schedule & finish days ----------
+function finishDayForLeaf(deck, dailyPace) {
+  const remaining = EXPORT_DATA.decks[deck].new_remaining;
+  if (remaining <= 0) return TODAY_DAY - 1; // already done
+  if (dailyPace <= 0) return Infinity;
+  return TODAY_DAY + Math.ceil(remaining / dailyPace) - 1;
+}
+
+function computeSubjectStats(paceBySubject) {
+  return SUBJECTS.map(subject => {
+    const leaves = leafDecksOf(subject);
+    const remaining = leaves.reduce((a, d) => a + EXPORT_DATA.decks[d].new_remaining, 0);
+    const pace = paceBySubject[subject] || 0;
+    const finishDay = pace > 0 ? (remaining <= 0 ? TODAY_DAY - 1 : TODAY_DAY + Math.ceil(remaining / pace) - 1) : Infinity;
+    return { subject, leaves, remaining, pace, finishDay };
+  });
+}
+
+function dayToDate(day) { return new Date(day * DAY_MS); }
+function dateToDay(dateStr) { return Math.floor(new Date(dateStr + 'T00:00:00Z').getTime() / DAY_MS); }
+function fmtDate(day) {
+  if (!isFinite(day)) return '到達不可';
+  const d = dayToDate(day);
+  return `${d.getUTCFullYear()}/${d.getUTCMonth() + 1}/${d.getUTCDate()}`;
+}
+
+// ---------- Monte Carlo: future review load, combining seen-card continuations + newly introduced cards ----------
+function simulateLoad(paceBySubject, horizonDay, trials) {
+  const days = horizonDay - TODAY_DAY + 1;
+  const newLoad = new Float64Array(days);
+  const reviewLoad = new Float64Array(days);
+
+  for (const subject of SUBJECTS) {
+    for (const deck of leafDecksOf(subject)) {
+      const cfg = EXPORT_DATA.decks[deck];
+      const w = cfg.weights, DR = cfg.desired_retention, maxIvl = cfg.max_interval;
+      const pace = paceBySubject[subject] || 0;
+      const leaves = leafDecksOf(subject);
+      const leafTotal = leaves.reduce((a, d) => a + EXPORT_DATA.decks[d].new_remaining, 0) || 1;
+      const share = EXPORT_DATA.decks[deck].new_remaining / leafTotal;
+      const effectivePace = pace * share;
+
+      for (let trial = 0; trial < trials; trial++) {
+        const rng = mulberry32(trial * 7919 + deck.length * 31 + Math.floor(pace * 100));
+
+        // seen cards: continue from their replayed state
+        for (const { S, D, lastDay } of REPLAYED[deck]) {
+          simulateForward(w, DR, maxIvl, S, D, lastDay, horizonDay, reviewLoad, rng, trials);
+        }
+
+        // not-yet-introduced new cards
+        if (effectivePace > 0) {
+          const remaining = EXPORT_DATA.decks[deck].new_remaining;
+          for (let i = 0; i < remaining; i++) {
+            const introDay = TODAY_DAY + Math.floor(i / effectivePace);
+            if (introDay > horizonDay) break;
+            const idx = introDay - TODAY_DAY;
+            newLoad[idx] += 1 / trials;
+            const g0 = sampleFirstGrade(rng);
+            const S = initialStability(w, g0), D = initialDifficulty(w, g0);
+            simulateForward(w, DR, maxIvl, S, D, introDay, horizonDay, reviewLoad, rng, trials);
+          }
+        }
+      }
+    }
+  }
+  return { newLoad, reviewLoad, startDay: TODAY_DAY };
+}
+
+function simulateForward(w, DR, maxIvl, S, D, fromDay, horizonDay, loadArr, rng, trials) {
+  let day = fromDay, s = S, d = D;
+  let guard = 0;
+  while (guard++ < 200) {
+    const iv = nextIntervalDays(w, s, DR, maxIvl);
+    day += iv;
+    if (day > horizonDay) break;
+    loadArr[day - TODAY_DAY] += 1 / trials;
+    const success = rng() < DR;
+    const g = success ? sampleSuccessGrade(rng) : 1;
+    const R = DR;
+    s = nextStability(w, d, s, R, g);
+    d = nextDifficulty(w, d, g);
+  }
+}
+
+// ---------- rendering ----------
+function el(tag, attrs, html) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) e.setAttribute(k, v);
+  if (html != null) e.innerHTML = html;
+  return e;
+}
+
+function buildPaceInputs() {
+  const wrap = document.getElementById('paceInputs');
+  wrap.innerHTML = '';
+  for (const subject of SUBJECTS) {
+    const field = el('div', { class: 'field' });
+    const label = el('label', { for: 'pace_' + subject }, subject);
+    const input = el('input', { type: 'number', id: 'pace_' + subject, min: '0', step: '1', value: DEFAULT_PACE[subject] ?? 10 });
+    input.addEventListener('input', scheduleRecompute);
+    field.appendChild(label); field.appendChild(input);
+    wrap.appendChild(field);
+  }
+}
+
+function currentPaceBySubject() {
+  const out = {};
+  for (const subject of SUBJECTS) {
+    const inp = document.getElementById('pace_' + subject);
+    out[subject] = inp ? Math.max(0, parseFloat(inp.value) || 0) : 0;
+  }
+  return out;
+}
+
+function scaledPace(base, mult) {
+  const out = {};
+  for (const k in base) out[k] = base[k] * mult;
+  return out;
+}
+
+function renderFeasibility(paceBySubject, examDay, bufferDays) {
+  const targetDay = examDay - bufferDays;
+  const stats = computeSubjectStats(paceBySubject);
+  const allOk = stats.every(s => s.finishDay <= targetDay);
+  const banner = document.getElementById('feasibilityBanner');
+  banner.innerHTML = '';
+  banner.appendChild(el('div', { class: 'status-pill ' + (allOk ? 'ok' : 'ng') },
+    allOk ? '✓ 今のノルマなら仕上げ期間込みで試験に間に合います' : '✗ このままでは仕上げ期間までに終わりません'));
+
+  const table = document.getElementById('feasibilityTable');
+  table.innerHTML = `<tr><th>科目</th><th>残り新規</th><th>1日ノルマ</th><th>消化完了予測</th><th>判定</th></tr>` +
+    stats.map(s => `<tr><td>${s.subject}</td><td>${s.remaining.toLocaleString()}枚</td><td>${s.pace}枚/日</td>` +
+      `<td>${fmtDate(s.finishDay)}</td><td class="${s.finishDay <= targetDay ? 'ok' : 'ng'}">${s.finishDay <= targetDay ? '間に合う' : '間に合わない'}</td></tr>`).join('');
+}
+
+function renderRequiredPace(paceBySubject, examDay, bufferDays, seriousMult) {
+  const targetDay = examDay - bufferDays;
+  const daysAvailable = Math.max(1, targetDay - TODAY_DAY + 1);
+
+  const rows = SUBJECTS.map(subject => {
+    const remaining = leafDecksOf(subject).reduce((a, d) => a + EXPORT_DATA.decks[d].new_remaining, 0);
+    const required = remaining / daysAvailable;
+    const myPace = (paceBySubject[subject] || 0) * seriousMult;
+    const startDelay = myPace > 0 ? Math.floor((targetDay - Math.ceil(remaining / myPace) + 1) - TODAY_DAY) : -Infinity;
+    const latestStart = TODAY_DAY + Math.max(0, startDelay);
+    return { subject, remaining, required, myPace, latestStart, feasible: startDelay >= 0 };
+  });
+
+  const table = document.getElementById('requiredPaceTable');
+  table.innerHTML = `<tr><th>科目</th><th>残り新規</th><th>間に合わせるための必要ペース</th><th>本気ペース(×${seriousMult.toFixed(1)})</th><th>本気ペースなら開始期限</th></tr>` +
+    rows.map(r => `<tr><td>${r.subject}</td><td>${r.remaining.toLocaleString()}枚</td>` +
+      `<td>${r.required.toFixed(1)}枚/日</td><td>${r.myPace.toFixed(1)}枚/日</td>` +
+      `<td class="${r.feasible ? 'ok' : 'ng'}">${r.feasible ? fmtDate(r.latestStart) + 'までに開始' : '本気ペースでも間に合わない'}</td></tr>`).join('');
+}
+
+function lineChart(containerId, series, opts) {
+  const width = opts.width || 900, height = opts.height || 220;
+  const plotH = height - 30, plotW = width - 40;
+  const allVals = series.flatMap(s => s.values);
+  const vmax = Math.max(1, ...allVals);
+  const n = opts.labels.length;
+  const stepX = n > 1 ? plotW / (n - 1) : plotW;
+
+  let grid = '';
+  for (let i = 0; i <= 3; i++) {
+    const frac = i / 3, y = plotH - frac * plotH, val = Math.round(vmax * frac);
+    grid += `<line x1="0" y1="${y.toFixed(1)}" x2="${plotW}" y2="${y.toFixed(1)}" class="gridline"/>` +
+            `<text x="-6" y="${y.toFixed(1)}" class="axis-label" text-anchor="end" dominant-baseline="middle">${val}</text>`;
+  }
+  const labelStep = Math.max(1, Math.floor(n / 10));
+  let labels = '';
+  for (let i = 0; i < n; i++) {
+    if (i % labelStep === 0 || i === n - 1) {
+      labels += `<text x="${(i * stepX).toFixed(1)}" y="${plotH + 16}" class="axis-label" text-anchor="middle">${opts.labels[i]}</text>`;
+    }
+  }
+  let examLine = '';
+  if (opts.examIndex != null && opts.examIndex >= 0 && opts.examIndex < n) {
+    const x = (opts.examIndex * stepX).toFixed(1);
+    examLine = `<line x1="${x}" y1="0" x2="${x}" y2="${plotH}" stroke="var(--status-critical)" stroke-width="1.5" stroke-dasharray="4,3"/>` +
+               `<text x="${x}" y="-6" class="axis-label" text-anchor="middle" fill="var(--status-critical)">試験日</text>`;
+  }
+
+  let paths = '';
+  for (const s of series) {
+    let d = '';
+    for (let i = 0; i < n; i++) {
+      const x = (i * stepX).toFixed(1), y = (plotH - (s.values[i] / vmax) * plotH).toFixed(1);
+      d += (i === 0 ? 'M' : 'L') + x + ',' + y + ' ';
+    }
+    const areaD = d + `L${((n - 1) * stepX).toFixed(1)},${plotH} L0,${plotH} Z`;
+    paths += `<path d="${areaD}" fill="${s.color}" opacity="0.08" stroke="none"/>`;
+    paths += `<path d="${d}" fill="none" stroke="${s.color}" stroke-width="2"/>`;
+  }
+
+  document.getElementById(containerId).innerHTML =
+    `<svg viewBox="0 0 ${width} ${height}" class="chart" role="img" preserveAspectRatio="none">` +
+    `<g transform="translate(40,4)">${grid}${examLine}${paths}</g></svg>`;
+}
+
+function stackedAreaChart(containerId, newVals, reviewVals, labels, examIndex) {
+  const width = 900, height = 240, plotH = height - 30, plotW = width - 40;
+  const totals = newVals.map((v, i) => v + reviewVals[i]);
+  const vmax = Math.max(1, ...totals);
+  const n = labels.length;
+  const stepX = n > 1 ? plotW / (n - 1) : plotW;
+
+  let grid = '';
+  for (let i = 0; i <= 3; i++) {
+    const frac = i / 3, y = plotH - frac * plotH, val = Math.round(vmax * frac);
+    grid += `<line x1="0" y1="${y.toFixed(1)}" x2="${plotW}" y2="${y.toFixed(1)}" class="gridline"/>` +
+            `<text x="-6" y="${y.toFixed(1)}" class="axis-label" text-anchor="end" dominant-baseline="middle">${val}</text>`;
+  }
+  const labelStep = Math.max(1, Math.floor(n / 12));
+  let labels_ = '';
+  for (let i = 0; i < n; i++) {
+    if (i % labelStep === 0 || i === n - 1) {
+      labels_ += `<text x="${(i * stepX).toFixed(1)}" y="${plotH + 16}" class="axis-label" text-anchor="middle">${labels[i]}</text>`;
+    }
+  }
+  let examLine = '';
+  if (examIndex != null && examIndex >= 0 && examIndex < n) {
+    const x = (examIndex * stepX).toFixed(1);
+    examLine = `<line x1="${x}" y1="0" x2="${x}" y2="${plotH}" stroke="var(--status-critical)" stroke-width="1.5" stroke-dasharray="4,3"/>` +
+               `<text x="${x}" y="-6" class="axis-label" text-anchor="middle" fill="var(--status-critical)">試験日</text>`;
+  }
+
+  function curveY(vals, i) { return (plotH - (vals[i] / vmax) * plotH).toFixed(1); }
+  function bandPath(topVals, bottomVals) {
+    let d = '';
+    for (let i = 0; i < n; i++) d += (i === 0 ? 'M' : 'L') + (i * stepX).toFixed(1) + ',' + curveY(topVals, i) + ' ';
+    for (let i = n - 1; i >= 0; i--) d += 'L' + (i * stepX).toFixed(1) + ',' + curveY(bottomVals, i) + ' ';
+    return d + 'Z';
+  }
+  const zeros = new Array(n).fill(0);
+  const reviewBand = bandPath(reviewVals, zeros);
+  const newBand = bandPath(totals, reviewVals);
+
+  const svg = `<svg viewBox="0 0 ${width} ${height}" class="chart" role="img" preserveAspectRatio="none">` +
+    `<g transform="translate(40,4)">${grid}` +
+    `<path d="${reviewBand}" fill="var(--series-2)" opacity="0.35" stroke="var(--series-2)" stroke-width="1.5"/>` +
+    `<path d="${newBand}" fill="var(--series-1)" opacity="0.35" stroke="var(--series-1)" stroke-width="1.5"/>` +
+    `${examLine}</g></svg>`;
+  document.getElementById(containerId).innerHTML = svg;
+}
+
+function computeHorizon(examDay) {
+  return Math.max(examDay + 14, TODAY_DAY + 30);
+}
+
+function dayLabels(startDay, count) {
+  const out = [];
+  for (let i = 0; i < count; i++) {
+    const d = dayToDate(startDay + i);
+    out.push(`${d.getUTCMonth() + 1}/${d.getUTCDate()}`);
+  }
+  return out;
+}
+
+let recomputeTimer = null;
+function scheduleRecompute() {
+  clearTimeout(recomputeTimer);
+  recomputeTimer = setTimeout(recompute, 250);
+}
+
+function recompute() {
+  const examDay = dateToDay(document.getElementById('examDate').value);
+  const bufferDays = parseInt(document.getElementById('bufferDays').value) || 0;
+  const seriousMult = parseFloat(document.getElementById('seriousMult').value) || 1;
+  const paceBySubject = currentPaceBySubject();
+  const horizonDay = computeHorizon(examDay);
+  const examIndex = examDay - TODAY_DAY;
+
+  renderFeasibility(paceBySubject, examDay, bufferDays);
+  renderRequiredPace(paceBySubject, examDay, bufferDays, seriousMult);
+
+  const trials = 60;
+  const { newLoad, reviewLoad } = simulateLoad(paceBySubject, horizonDay, trials);
+  const labels = dayLabels(TODAY_DAY, newLoad.length);
+  stackedAreaChart('loadChart', Array.from(newLoad), Array.from(reviewLoad), labels, examIndex);
+
+  const peak = Math.max(...Array.from(newLoad).map((v, i) => v + reviewLoad[i]));
+  const avgNext30 = (Array.from(newLoad).slice(0, 30).reduce((a, b) => a + b, 0) +
+                      Array.from(reviewLoad).slice(0, 30).reduce((a, b) => a + b, 0)) / 30;
+  document.getElementById('loadTiles').innerHTML =
+    `<div class="tile"><div class="tile-label">直近30日 平均/日</div><div class="tile-value">${avgNext30.toFixed(1)}枚</div></div>` +
+    `<div class="tile"><div class="tile-label">シミュレーション期間中のピーク/日</div><div class="tile-value">${peak.toFixed(0)}枚</div></div>`;
+
+  // scenario comparison
+  const scenAmult = 1.0, scenBmult = parseFloat(document.getElementById('scenB').value) || 1.5,
+        scenCmult = parseFloat(document.getElementById('scenC').value) || 2.0;
+  document.getElementById('scenA').textContent = scenAmult.toFixed(1);
+
+  const totalsFor = (mult) => {
+    const p = scaledPace(paceBySubject, mult);
+    const { newLoad: nl, reviewLoad: rl } = simulateLoad(p, horizonDay, 30);
+    return Array.from(nl).map((v, i) => v + rl[i]);
+  };
+  const seriesA = totalsFor(scenAmult), seriesB = totalsFor(scenBmult), seriesC = totalsFor(scenCmult);
+  lineChart('scenarioChart', [
+    { values: seriesA, color: 'var(--series-1)' },
+    { values: seriesB, color: 'var(--series-2)' },
+    { values: seriesC, color: 'var(--series-3)' },
+  ], { labels, examIndex });
+
+  const finishFor = (mult) => {
+    const p = scaledPace(paceBySubject, mult);
+    const stats = computeSubjectStats(p);
+    const finishDay = Math.max(...stats.map(s => s.finishDay));
+    return finishDay;
+  };
+  const scenRows = [
+    ['現在の設定 ×' + scenAmult.toFixed(1), finishFor(scenAmult), Math.max(...seriesA)],
+    ['×' + scenBmult.toFixed(1), finishFor(scenBmult), Math.max(...seriesB)],
+    ['×' + scenCmult.toFixed(1), finishFor(scenCmult), Math.max(...seriesC)],
+  ];
+  document.getElementById('scenarioTable').innerHTML =
+    `<tr><th>シナリオ</th><th>全科目消化完了</th><th>ピーク負荷/日</th><th>試験日までに間に合うか</th></tr>` +
+    scenRows.map(([label, finishDay, peak]) => `<tr><td>${label}</td><td>${fmtDate(finishDay)}</td><td>${peak.toFixed(0)}枚</td>` +
+      `<td class="${finishDay <= examDay ? 'ok' : 'ng'}">${finishDay <= examDay ? '間に合う' : '間に合わない'}</td></tr>`).join('');
+}
+
+buildPaceInputs();
+document.getElementById('examDate').addEventListener('input', scheduleRecompute);
+document.getElementById('bufferDays').addEventListener('input', scheduleRecompute);
+document.getElementById('seriousMult').addEventListener('input', scheduleRecompute);
+document.getElementById('scenB').addEventListener('input', scheduleRecompute);
+document.getElementById('scenC').addEventListener('input', scheduleRecompute);
+document.getElementById('resetPaceBtn').addEventListener('click', () => {
+  for (const subject of SUBJECTS) {
+    const inp = document.getElementById('pace_' + subject);
+    if (inp) inp.value = DEFAULT_PACE[subject] ?? 10;
+  }
+  recompute();
+});
+recompute();
+</script>
+
+</body>
+</html>

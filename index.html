@@ -4,9 +4,1347 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Anki 学習ダッシュボード</title>
 </head>
 <body>
-<p>準備中です。まもなく自動生成されたダッシュボードに置き換わります。</p>
+<title>M3 2学期 学習ペース</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  .anki-dash {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page:           #f4f3ee;
+    --text-primary:   #171512;
+    --text-secondary: #58554e;
+    --text-muted:     #8b877d;
+    --gridline:       #e4e1d7;
+    --baseline:       #c7c3b6;
+    --series-1:       #2a78d6;
+    --series-2:       #eb6834;
+    --status-warning: #fab219;
+    --border:         rgba(23,21,18,0.09);
+    --accent-wash:    rgba(42,120,214,0.06);
+    --font-display:   "Zen Maru Gothic", "Hiragino Maru Gothic ProN", system-ui, sans-serif;
+    --font-body:      "Noto Sans JP", "Hiragino Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: var(--page);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    padding: 28px 24px 48px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .anki-dash {
+      color-scheme: dark;
+      --surface-1:      #201f1a;
+      --page:           #131210;
+      --text-primary:   #f7f5f0;
+      --text-secondary: #c7c3b6;
+      --text-muted:     #938e82;
+      --gridline:       #322f28;
+      --baseline:       #454136;
+      --series-1:       #3987e5;
+      --series-2:       #d95926;
+      --status-warning: #fab219;
+      --border:         rgba(247,245,240,0.10);
+      --accent-wash:    rgba(57,135,229,0.10);
+    }
+  }
+  :root[data-theme="dark"] .anki-dash {
+    color-scheme: dark;
+    --surface-1:      #201f1a;
+    --page:           #131210;
+    --text-primary:   #f7f5f0;
+    --text-secondary: #c7c3b6;
+    --text-muted:     #938e82;
+    --gridline:       #322f28;
+    --baseline:       #454136;
+    --series-1:       #3987e5;
+    --series-2:       #d95926;
+    --status-warning: #fab219;
+    --border:         rgba(247,245,240,0.10);
+    --accent-wash:    rgba(57,135,229,0.10);
+  }
+  .anki-dash * { box-sizing: border-box; }
+  .anki-dash h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 26px;
+    letter-spacing: 0.01em;
+    margin: 0 0 4px;
+    text-wrap: balance;
+  }
+  .anki-dash .meta { color: var(--text-secondary); font-size: 13px; margin-bottom: 8px; }
+  .anki-dash .nav-link { font-size: 13px; margin-bottom: 28px; }
+  .anki-dash .nav-link a { color: var(--series-1); text-decoration: none; font-weight: 600; }
+  .anki-dash .nav-link a:hover { text-decoration: underline; }
+  .anki-dash h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 16px;
+    margin: 0 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .anki-dash h3 {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: var(--text-secondary);
+    margin: 24px 0 8px;
+    text-transform: uppercase;
+  }
+  .deck-section, .chart-section {
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 22px 20px;
+    margin-bottom: 16px;
+  }
+  .deck-section.hero {
+    background: linear-gradient(180deg, var(--accent-wash), var(--surface-1) 55%);
+    border-color: var(--border);
+    box-shadow: 0 1px 0 var(--border);
+  }
+  .deck-section.hero h2 { font-size: 19px; }
+  .deck-section.hero .tile-value { font-size: 28px; }
+  .hero-badge {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--series-1);
+    background: var(--accent-wash);
+    border-radius: 999px;
+    padding: 2px 10px;
+    letter-spacing: 0.02em;
+  }
+  .tiles { display: flex; flex-wrap: wrap; gap: 20px 28px; }
+  .tile { min-width: 140px; flex: 1 1 140px; }
+  .tile-label { font-size: 12px; color: var(--text-secondary); }
+  .tile-value {
+    font-family: var(--font-display);
+    font-size: 23px;
+    font-weight: 700;
+    margin-top: 3px;
+    font-variant-numeric: proportional-nums;
+  }
+  .tile-sub { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
+  .subject-group {
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 22px 22px;
+    margin-bottom: 14px;
+  }
+  .subject-group h2 { font-size: 15px; }
+  .leaf-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .leaf-card {
+    background: var(--page);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px 16px;
+  }
+  .leaf-card h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 13px;
+    margin: 0 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .leaf-badge {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 1px 8px;
+  }
+  .tiles.compact { gap: 12px 20px; }
+  .tiles.compact .tile { min-width: 100px; flex: 1 1 100px; }
+  .tiles.compact .tile-value { font-size: 17px; }
+  .tiles.compact .tile-label { font-size: 10px; }
+  .tiles.compact .tile-sub { font-size: 10px; }
+  .chart-wrap { overflow-x: auto; }
+  .chart { width: 100%; height: auto; min-width: 480px; }
+  .gridline { stroke: var(--gridline); stroke-width: 1; }
+  .axis-label { fill: var(--text-muted); font-size: 10px; font-family: var(--font-body); }
+  .empty { color: var(--text-muted); font-size: 13px; }
+  .legend { display: flex; gap: 16px; margin-bottom: 8px; font-size: 12px; color: var(--text-secondary); }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .swatch { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+</style>
+
+<div class="anki-dash">
+  <h1>M3 2学期 学習ペース</h1>
+  <div class="meta">プロファイル: きら ・ 最終更新: 2026-09-04T10:32:06</div>
+  <div class="nav-link"><a href="./simulation.html" target="_blank" rel="noopener">試験逆算シミュレーションを開く →</a></div>
+
+  <section class="deck-section hero">
+      <h2>M3 2学期<span class="hero-badge">全体</span></h2>
+      <div class="tiles"><div class="tile">
+      <div class="tile-label">消化率</div>
+      <div class="tile-value">0.5%</div>
+      <div class="tile-sub">32 / 6,513 枚</div>
+    </div><div class="tile">
+      <div class="tile-label">残り新規</div>
+      <div class="tile-value">6,481枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">今日の復習予定</div>
+      <div class="tile-value">32枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">終了予測（楽観）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">稼働日ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">終了予測（現実的）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">全日平均ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">直近14日 正答率</div>
+      <div class="tile-value">—</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">直近14日 1日あたり復習</div>
+      <div class="tile-value">0.0</div>
+      
+    </div></div>
+      <h3>直近30日のペース推移</h3>
+      <div class="chart-wrap"><div class="legend">
+      <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
+      <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
+    </div><svg viewBox="0 0 860 200" class="chart" role="img" preserveAspectRatio="none">
+      <g transform="translate(40,4)">
+        <line x1="0" y1="170.0" x2="860" y2="170.0" class="gridline" /><text x="-6" y="170.0" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="113.3" x2="860" y2="113.3" class="gridline" /><text x="-6" y="113.3" class="axis-label" text-anchor="end" dominant-baseline="middle">18</text><line x1="0" y1="56.7" x2="860" y2="56.7" class="gridline" /><text x="-6" y="56.7" class="axis-label" text-anchor="end" dominant-baseline="middle">36</text><line x1="0" y1="0.0" x2="860" y2="0.0" class="gridline" /><text x="-6" y="0.0" class="axis-label" text-anchor="end" dominant-baseline="middle">54</text>
+        <text x="14.3" y="186" class="axis-label" text-anchor="middle">08-06</text><text x="100.3" y="186" class="axis-label" text-anchor="middle">08-09</text><rect x="174.3" y="113.3" width="24.0" height="56.7" rx="4" fill="var(--series-1)"><title>08-12: 新規 18</title></rect><rect x="174.3" y="-2.0" width="24.0" height="113.3" rx="4" fill="var(--series-2)"><title>08-12: 復習 36</title></rect><text x="186.3" y="186" class="axis-label" text-anchor="middle">08-12</text><text x="272.3" y="186" class="axis-label" text-anchor="middle">08-15</text><text x="358.3" y="186" class="axis-label" text-anchor="middle">08-18</text><text x="444.3" y="186" class="axis-label" text-anchor="middle">08-21</text><text x="530.3" y="186" class="axis-label" text-anchor="middle">08-24</text><text x="616.3" y="186" class="axis-label" text-anchor="middle">08-27</text><text x="702.3" y="186" class="axis-label" text-anchor="middle">08-30</text><text x="788.3" y="186" class="axis-label" text-anchor="middle">09-02</text><text x="845.7" y="186" class="axis-label" text-anchor="middle">09-04</text>
+      </g>
+    </svg></div>
+    </section>
+  <section class="chart-section">
+      <h2>種別合計</h2>
+      <div class="leaf-grid"><div class="leaf-card">
+      <h4>問題編合計<span class="leaf-badge">全科目合計</span></h4>
+      <div class="tiles compact"><div class="tile">
+      <div class="tile-label">消化率</div>
+      <div class="tile-value">0.4%</div>
+      <div class="tile-sub">6 / 1,688 枚</div>
+    </div><div class="tile">
+      <div class="tile-label">残り新規</div>
+      <div class="tile-value">1,682枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">今日の復習予定</div>
+      <div class="tile-value">6枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">終了予測（楽観）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">稼働日ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">終了予測（現実的）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">全日平均ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">直近14日 正答率</div>
+      <div class="tile-value">—</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">直近14日 1日あたり復習</div>
+      <div class="tile-value">0.0</div>
+      
+    </div></div>
+      <div class="chart-wrap"><div class="legend">
+      <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
+      <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
+    </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
+      <g transform="translate(40,4)">
+        <line x1="0" y1="110.0" x2="860" y2="110.0" class="gridline" /><text x="-6" y="110.0" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="73.3" x2="860" y2="73.3" class="gridline" /><text x="-6" y="73.3" class="axis-label" text-anchor="end" dominant-baseline="middle">6</text><line x1="0" y1="36.7" x2="860" y2="36.7" class="gridline" /><text x="-6" y="36.7" class="axis-label" text-anchor="end" dominant-baseline="middle">12</text><line x1="0" y1="0.0" x2="860" y2="0.0" class="gridline" /><text x="-6" y="0.0" class="axis-label" text-anchor="end" dominant-baseline="middle">18</text>
+        <text x="14.3" y="126" class="axis-label" text-anchor="middle">08-06</text><text x="100.3" y="126" class="axis-label" text-anchor="middle">08-09</text><rect x="174.3" y="0.0" width="24.0" height="110.0" rx="4" fill="var(--series-1)"><title>08-12: 新規 18</title></rect><text x="186.3" y="126" class="axis-label" text-anchor="middle">08-12</text><text x="272.3" y="126" class="axis-label" text-anchor="middle">08-15</text><text x="358.3" y="126" class="axis-label" text-anchor="middle">08-18</text><text x="444.3" y="126" class="axis-label" text-anchor="middle">08-21</text><text x="530.3" y="126" class="axis-label" text-anchor="middle">08-24</text><text x="616.3" y="126" class="axis-label" text-anchor="middle">08-27</text><text x="702.3" y="126" class="axis-label" text-anchor="middle">08-30</text><text x="788.3" y="126" class="axis-label" text-anchor="middle">09-02</text><text x="845.7" y="126" class="axis-label" text-anchor="middle">09-04</text>
+      </g>
+    </svg></div>
+    </div><div class="leaf-card">
+      <h4>穴埋め編合計<span class="leaf-badge">全科目合計</span></h4>
+      <div class="tiles compact"><div class="tile">
+      <div class="tile-label">消化率</div>
+      <div class="tile-value">0.5%</div>
+      <div class="tile-sub">26 / 4,825 枚</div>
+    </div><div class="tile">
+      <div class="tile-label">残り新規</div>
+      <div class="tile-value">4,799枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">今日の復習予定</div>
+      <div class="tile-value">26枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">終了予測（楽観）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">稼働日ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">終了予測（現実的）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">全日平均ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">直近14日 正答率</div>
+      <div class="tile-value">—</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">直近14日 1日あたり復習</div>
+      <div class="tile-value">0.0</div>
+      
+    </div></div>
+      <div class="chart-wrap"><div class="legend">
+      <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
+      <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
+    </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
+      <g transform="translate(40,4)">
+        <line x1="0" y1="110.0" x2="860" y2="110.0" class="gridline" /><text x="-6" y="110.0" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="73.3" x2="860" y2="73.3" class="gridline" /><text x="-6" y="73.3" class="axis-label" text-anchor="end" dominant-baseline="middle">16</text><line x1="0" y1="36.7" x2="860" y2="36.7" class="gridline" /><text x="-6" y="36.7" class="axis-label" text-anchor="end" dominant-baseline="middle">31</text><line x1="0" y1="0.0" x2="860" y2="0.0" class="gridline" /><text x="-6" y="0.0" class="axis-label" text-anchor="end" dominant-baseline="middle">47</text>
+        <text x="14.3" y="126" class="axis-label" text-anchor="middle">08-06</text><text x="100.3" y="126" class="axis-label" text-anchor="middle">08-09</text><rect x="174.3" y="0.0" width="24.0" height="110.0" rx="4" fill="var(--series-2)"><title>08-12: 復習 47</title></rect><text x="186.3" y="126" class="axis-label" text-anchor="middle">08-12</text><text x="272.3" y="126" class="axis-label" text-anchor="middle">08-15</text><text x="358.3" y="126" class="axis-label" text-anchor="middle">08-18</text><text x="444.3" y="126" class="axis-label" text-anchor="middle">08-21</text><text x="530.3" y="126" class="axis-label" text-anchor="middle">08-24</text><text x="616.3" y="126" class="axis-label" text-anchor="middle">08-27</text><text x="702.3" y="126" class="axis-label" text-anchor="middle">08-30</text><text x="788.3" y="126" class="axis-label" text-anchor="middle">09-02</text><text x="845.7" y="126" class="axis-label" text-anchor="middle">09-04</text>
+      </g>
+    </svg></div>
+    </div></div>
+    </section>
+  <section class="subject-group">
+      <h2>データ分析に基づく研究講義</h2>
+      <div class="tiles"><div class="tile">
+      <div class="tile-label">消化率</div>
+      <div class="tile-value">0.0%</div>
+      <div class="tile-sub">0 / 646 枚</div>
+    </div><div class="tile">
+      <div class="tile-label">残り新規</div>
+      <div class="tile-value">646枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">今日の復習予定</div>
+      <div class="tile-value">0枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">終了予測（楽観）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">稼働日ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">終了予測（現実的）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">全日平均ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">直近14日 正答率</div>
+      <div class="tile-value">—</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">直近14日 1日あたり復習</div>
+      <div class="tile-value">0.0</div>
+      
+    </div></div>
+      <div class="leaf-grid"><div class="leaf-card">
+      <h4>問題編</h4>
+      <div class="tiles compact"><div class="tile">
+      <div class="tile-label">消化率</div>
+      <div class="tile-value">0.0%</div>
+      <div class="tile-sub">0 / 153 枚</div>
+    </div><div class="tile">
+      <div class="tile-label">残り新規</div>
+      <div class="tile-value">153枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">今日の復習予定</div>
+      <div class="tile-value">0枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">終了予測（楽観）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">稼働日ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">終了予測（現実的）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">全日平均ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">直近14日 正答率</div>
+      <div class="tile-value">—</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">直近14日 1日あたり復習</div>
+      <div class="tile-value">0.0</div>
+      
+    </div></div>
+      <div class="chart-wrap"><div class="legend">
+      <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
+      <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
+    </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
+      <g transform="translate(40,4)">
+        <line x1="0" y1="110.0" x2="860" y2="110.0" class="gridline" /><text x="-6" y="110.0" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="73.3" x2="860" y2="73.3" class="gridline" /><text x="-6" y="73.3" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="36.7" x2="860" y2="36.7" class="gridline" /><text x="-6" y="36.7" class="axis-label" text-anchor="end" dominant-baseline="middle">1</text><line x1="0" y1="0.0" x2="860" y2="0.0" class="gridline" /><text x="-6" y="0.0" class="axis-label" text-anchor="end" dominant-baseline="middle">1</text>
+        <text x="14.3" y="126" class="axis-label" text-anchor="middle">08-06</text><text x="100.3" y="126" class="axis-label" text-anchor="middle">08-09</text><text x="186.3" y="126" class="axis-label" text-anchor="middle">08-12</text><text x="272.3" y="126" class="axis-label" text-anchor="middle">08-15</text><text x="358.3" y="126" class="axis-label" text-anchor="middle">08-18</text><text x="444.3" y="126" class="axis-label" text-anchor="middle">08-21</text><text x="530.3" y="126" class="axis-label" text-anchor="middle">08-24</text><text x="616.3" y="126" class="axis-label" text-anchor="middle">08-27</text><text x="702.3" y="126" class="axis-label" text-anchor="middle">08-30</text><text x="788.3" y="126" class="axis-label" text-anchor="middle">09-02</text><text x="845.7" y="126" class="axis-label" text-anchor="middle">09-04</text>
+      </g>
+    </svg></div>
+    </div><div class="leaf-card">
+      <h4>穴埋め編</h4>
+      <div class="tiles compact"><div class="tile">
+      <div class="tile-label">消化率</div>
+      <div class="tile-value">0.0%</div>
+      <div class="tile-sub">0 / 493 枚</div>
+    </div><div class="tile">
+      <div class="tile-label">残り新規</div>
+      <div class="tile-value">493枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">今日の復習予定</div>
+      <div class="tile-value">0枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">終了予測（楽観）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">稼働日ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">終了予測（現実的）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">全日平均ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">直近14日 正答率</div>
+      <div class="tile-value">—</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">直近14日 1日あたり復習</div>
+      <div class="tile-value">0.0</div>
+      
+    </div></div>
+      <div class="chart-wrap"><div class="legend">
+      <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
+      <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
+    </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
+      <g transform="translate(40,4)">
+        <line x1="0" y1="110.0" x2="860" y2="110.0" class="gridline" /><text x="-6" y="110.0" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="73.3" x2="860" y2="73.3" class="gridline" /><text x="-6" y="73.3" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="36.7" x2="860" y2="36.7" class="gridline" /><text x="-6" y="36.7" class="axis-label" text-anchor="end" dominant-baseline="middle">1</text><line x1="0" y1="0.0" x2="860" y2="0.0" class="gridline" /><text x="-6" y="0.0" class="axis-label" text-anchor="end" dominant-baseline="middle">1</text>
+        <text x="14.3" y="126" class="axis-label" text-anchor="middle">08-06</text><text x="100.3" y="126" class="axis-label" text-anchor="middle">08-09</text><text x="186.3" y="126" class="axis-label" text-anchor="middle">08-12</text><text x="272.3" y="126" class="axis-label" text-anchor="middle">08-15</text><text x="358.3" y="126" class="axis-label" text-anchor="middle">08-18</text><text x="444.3" y="126" class="axis-label" text-anchor="middle">08-21</text><text x="530.3" y="126" class="axis-label" text-anchor="middle">08-24</text><text x="616.3" y="126" class="axis-label" text-anchor="middle">08-27</text><text x="702.3" y="126" class="axis-label" text-anchor="middle">08-30</text><text x="788.3" y="126" class="axis-label" text-anchor="middle">09-02</text><text x="845.7" y="126" class="axis-label" text-anchor="middle">09-04</text>
+      </g>
+    </svg></div>
+    </div></div>
+    </section><section class="subject-group">
+      <h2>女性内分泌・妊娠</h2>
+      <div class="tiles"><div class="tile">
+      <div class="tile-label">消化率</div>
+      <div class="tile-value">0.0%</div>
+      <div class="tile-sub">0 / 628 枚</div>
+    </div><div class="tile">
+      <div class="tile-label">残り新規</div>
+      <div class="tile-value">628枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">今日の復習予定</div>
+      <div class="tile-value">0枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">終了予測（楽観）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">稼働日ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">終了予測（現実的）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">全日平均ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">直近14日 正答率</div>
+      <div class="tile-value">—</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">直近14日 1日あたり復習</div>
+      <div class="tile-value">0.0</div>
+      
+    </div></div>
+      <div class="leaf-grid"><div class="leaf-card">
+      <h4>問題編</h4>
+      <div class="tiles compact"><div class="tile">
+      <div class="tile-label">消化率</div>
+      <div class="tile-value">0.0%</div>
+      <div class="tile-sub">0 / 125 枚</div>
+    </div><div class="tile">
+      <div class="tile-label">残り新規</div>
+      <div class="tile-value">125枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">今日の復習予定</div>
+      <div class="tile-value">0枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">終了予測（楽観）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">稼働日ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">終了予測（現実的）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">全日平均ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">直近14日 正答率</div>
+      <div class="tile-value">—</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">直近14日 1日あたり復習</div>
+      <div class="tile-value">0.0</div>
+      
+    </div></div>
+      <div class="chart-wrap"><div class="legend">
+      <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
+      <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
+    </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
+      <g transform="translate(40,4)">
+        <line x1="0" y1="110.0" x2="860" y2="110.0" class="gridline" /><text x="-6" y="110.0" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="73.3" x2="860" y2="73.3" class="gridline" /><text x="-6" y="73.3" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="36.7" x2="860" y2="36.7" class="gridline" /><text x="-6" y="36.7" class="axis-label" text-anchor="end" dominant-baseline="middle">1</text><line x1="0" y1="0.0" x2="860" y2="0.0" class="gridline" /><text x="-6" y="0.0" class="axis-label" text-anchor="end" dominant-baseline="middle">1</text>
+        <text x="14.3" y="126" class="axis-label" text-anchor="middle">08-06</text><text x="100.3" y="126" class="axis-label" text-anchor="middle">08-09</text><text x="186.3" y="126" class="axis-label" text-anchor="middle">08-12</text><text x="272.3" y="126" class="axis-label" text-anchor="middle">08-15</text><text x="358.3" y="126" class="axis-label" text-anchor="middle">08-18</text><text x="444.3" y="126" class="axis-label" text-anchor="middle">08-21</text><text x="530.3" y="126" class="axis-label" text-anchor="middle">08-24</text><text x="616.3" y="126" class="axis-label" text-anchor="middle">08-27</text><text x="702.3" y="126" class="axis-label" text-anchor="middle">08-30</text><text x="788.3" y="126" class="axis-label" text-anchor="middle">09-02</text><text x="845.7" y="126" class="axis-label" text-anchor="middle">09-04</text>
+      </g>
+    </svg></div>
+    </div><div class="leaf-card">
+      <h4>穴埋め編</h4>
+      <div class="tiles compact"><div class="tile">
+      <div class="tile-label">消化率</div>
+      <div class="tile-value">0.0%</div>
+      <div class="tile-sub">0 / 503 枚</div>
+    </div><div class="tile">
+      <div class="tile-label">残り新規</div>
+      <div class="tile-value">503枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">今日の復習予定</div>
+      <div class="tile-value">0枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">終了予測（楽観）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">稼働日ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">終了予測（現実的）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">全日平均ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">直近14日 正答率</div>
+      <div class="tile-value">—</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">直近14日 1日あたり復習</div>
+      <div class="tile-value">0.0</div>
+      
+    </div></div>
+      <div class="chart-wrap"><div class="legend">
+      <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
+      <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
+    </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
+      <g transform="translate(40,4)">
+        <line x1="0" y1="110.0" x2="860" y2="110.0" class="gridline" /><text x="-6" y="110.0" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="73.3" x2="860" y2="73.3" class="gridline" /><text x="-6" y="73.3" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="36.7" x2="860" y2="36.7" class="gridline" /><text x="-6" y="36.7" class="axis-label" text-anchor="end" dominant-baseline="middle">1</text><line x1="0" y1="0.0" x2="860" y2="0.0" class="gridline" /><text x="-6" y="0.0" class="axis-label" text-anchor="end" dominant-baseline="middle">1</text>
+        <text x="14.3" y="126" class="axis-label" text-anchor="middle">08-06</text><text x="100.3" y="126" class="axis-label" text-anchor="middle">08-09</text><text x="186.3" y="126" class="axis-label" text-anchor="middle">08-12</text><text x="272.3" y="126" class="axis-label" text-anchor="middle">08-15</text><text x="358.3" y="126" class="axis-label" text-anchor="middle">08-18</text><text x="444.3" y="126" class="axis-label" text-anchor="middle">08-21</text><text x="530.3" y="126" class="axis-label" text-anchor="middle">08-24</text><text x="616.3" y="126" class="axis-label" text-anchor="middle">08-27</text><text x="702.3" y="126" class="axis-label" text-anchor="middle">08-30</text><text x="788.3" y="126" class="axis-label" text-anchor="middle">09-02</text><text x="845.7" y="126" class="axis-label" text-anchor="middle">09-04</text>
+      </g>
+    </svg></div>
+    </div></div>
+    </section><section class="subject-group">
+      <h2>循環器Ⅱ</h2>
+      <div class="tiles"><div class="tile">
+      <div class="tile-label">消化率</div>
+      <div class="tile-value">0.0%</div>
+      <div class="tile-sub">0 / 336 枚</div>
+    </div><div class="tile">
+      <div class="tile-label">残り新規</div>
+      <div class="tile-value">336枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">今日の復習予定</div>
+      <div class="tile-value">0枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">終了予測（楽観）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">稼働日ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">終了予測（現実的）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">全日平均ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">直近14日 正答率</div>
+      <div class="tile-value">—</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">直近14日 1日あたり復習</div>
+      <div class="tile-value">0.0</div>
+      
+    </div></div>
+      <div class="leaf-grid"><div class="leaf-card">
+      <h4>問題編</h4>
+      <div class="tiles compact"><div class="tile">
+      <div class="tile-label">消化率</div>
+      <div class="tile-value">0.0%</div>
+      <div class="tile-sub">0 / 96 枚</div>
+    </div><div class="tile">
+      <div class="tile-label">残り新規</div>
+      <div class="tile-value">96枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">今日の復習予定</div>
+      <div class="tile-value">0枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">終了予測（楽観）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">稼働日ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">終了予測（現実的）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">全日平均ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">直近14日 正答率</div>
+      <div class="tile-value">—</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">直近14日 1日あたり復習</div>
+      <div class="tile-value">0.0</div>
+      
+    </div></div>
+      <div class="chart-wrap"><div class="legend">
+      <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
+      <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
+    </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
+      <g transform="translate(40,4)">
+        <line x1="0" y1="110.0" x2="860" y2="110.0" class="gridline" /><text x="-6" y="110.0" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="73.3" x2="860" y2="73.3" class="gridline" /><text x="-6" y="73.3" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="36.7" x2="860" y2="36.7" class="gridline" /><text x="-6" y="36.7" class="axis-label" text-anchor="end" dominant-baseline="middle">1</text><line x1="0" y1="0.0" x2="860" y2="0.0" class="gridline" /><text x="-6" y="0.0" class="axis-label" text-anchor="end" dominant-baseline="middle">1</text>
+        <text x="14.3" y="126" class="axis-label" text-anchor="middle">08-06</text><text x="100.3" y="126" class="axis-label" text-anchor="middle">08-09</text><text x="186.3" y="126" class="axis-label" text-anchor="middle">08-12</text><text x="272.3" y="126" class="axis-label" text-anchor="middle">08-15</text><text x="358.3" y="126" class="axis-label" text-anchor="middle">08-18</text><text x="444.3" y="126" class="axis-label" text-anchor="middle">08-21</text><text x="530.3" y="126" class="axis-label" text-anchor="middle">08-24</text><text x="616.3" y="126" class="axis-label" text-anchor="middle">08-27</text><text x="702.3" y="126" class="axis-label" text-anchor="middle">08-30</text><text x="788.3" y="126" class="axis-label" text-anchor="middle">09-02</text><text x="845.7" y="126" class="axis-label" text-anchor="middle">09-04</text>
+      </g>
+    </svg></div>
+    </div><div class="leaf-card">
+      <h4>穴埋め編</h4>
+      <div class="tiles compact"><div class="tile">
+      <div class="tile-label">消化率</div>
+      <div class="tile-value">0.0%</div>
+      <div class="tile-sub">0 / 240 枚</div>
+    </div><div class="tile">
+      <div class="tile-label">残り新規</div>
+      <div class="tile-value">240枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">今日の復習予定</div>
+      <div class="tile-value">0枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">終了予測（楽観）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">稼働日ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">終了予測（現実的）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">全日平均ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">直近14日 正答率</div>
+      <div class="tile-value">—</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">直近14日 1日あたり復習</div>
+      <div class="tile-value">0.0</div>
+      
+    </div></div>
+      <div class="chart-wrap"><div class="legend">
+      <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
+      <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
+    </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
+      <g transform="translate(40,4)">
+        <line x1="0" y1="110.0" x2="860" y2="110.0" class="gridline" /><text x="-6" y="110.0" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="73.3" x2="860" y2="73.3" class="gridline" /><text x="-6" y="73.3" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="36.7" x2="860" y2="36.7" class="gridline" /><text x="-6" y="36.7" class="axis-label" text-anchor="end" dominant-baseline="middle">1</text><line x1="0" y1="0.0" x2="860" y2="0.0" class="gridline" /><text x="-6" y="0.0" class="axis-label" text-anchor="end" dominant-baseline="middle">1</text>
+        <text x="14.3" y="126" class="axis-label" text-anchor="middle">08-06</text><text x="100.3" y="126" class="axis-label" text-anchor="middle">08-09</text><text x="186.3" y="126" class="axis-label" text-anchor="middle">08-12</text><text x="272.3" y="126" class="axis-label" text-anchor="middle">08-15</text><text x="358.3" y="126" class="axis-label" text-anchor="middle">08-18</text><text x="444.3" y="126" class="axis-label" text-anchor="middle">08-21</text><text x="530.3" y="126" class="axis-label" text-anchor="middle">08-24</text><text x="616.3" y="126" class="axis-label" text-anchor="middle">08-27</text><text x="702.3" y="126" class="axis-label" text-anchor="middle">08-30</text><text x="788.3" y="126" class="axis-label" text-anchor="middle">09-02</text><text x="845.7" y="126" class="axis-label" text-anchor="middle">09-04</text>
+      </g>
+    </svg></div>
+    </div></div>
+    </section><section class="subject-group">
+      <h2>性腺・生殖器</h2>
+      <div class="tiles"><div class="tile">
+      <div class="tile-label">消化率</div>
+      <div class="tile-value">0.0%</div>
+      <div class="tile-sub">0 / 603 枚</div>
+    </div><div class="tile">
+      <div class="tile-label">残り新規</div>
+      <div class="tile-value">603枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">今日の復習予定</div>
+      <div class="tile-value">0枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">終了予測（楽観）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">稼働日ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">終了予測（現実的）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">全日平均ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">直近14日 正答率</div>
+      <div class="tile-value">—</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">直近14日 1日あたり復習</div>
+      <div class="tile-value">0.0</div>
+      
+    </div></div>
+      <div class="leaf-grid"><div class="leaf-card">
+      <h4>問題編</h4>
+      <div class="tiles compact"><div class="tile">
+      <div class="tile-label">消化率</div>
+      <div class="tile-value">0.0%</div>
+      <div class="tile-sub">0 / 201 枚</div>
+    </div><div class="tile">
+      <div class="tile-label">残り新規</div>
+      <div class="tile-value">201枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">今日の復習予定</div>
+      <div class="tile-value">0枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">終了予測（楽観）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">稼働日ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">終了予測（現実的）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">全日平均ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">直近14日 正答率</div>
+      <div class="tile-value">—</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">直近14日 1日あたり復習</div>
+      <div class="tile-value">0.0</div>
+      
+    </div></div>
+      <div class="chart-wrap"><div class="legend">
+      <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
+      <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
+    </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
+      <g transform="translate(40,4)">
+        <line x1="0" y1="110.0" x2="860" y2="110.0" class="gridline" /><text x="-6" y="110.0" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="73.3" x2="860" y2="73.3" class="gridline" /><text x="-6" y="73.3" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="36.7" x2="860" y2="36.7" class="gridline" /><text x="-6" y="36.7" class="axis-label" text-anchor="end" dominant-baseline="middle">1</text><line x1="0" y1="0.0" x2="860" y2="0.0" class="gridline" /><text x="-6" y="0.0" class="axis-label" text-anchor="end" dominant-baseline="middle">1</text>
+        <text x="14.3" y="126" class="axis-label" text-anchor="middle">08-06</text><text x="100.3" y="126" class="axis-label" text-anchor="middle">08-09</text><text x="186.3" y="126" class="axis-label" text-anchor="middle">08-12</text><text x="272.3" y="126" class="axis-label" text-anchor="middle">08-15</text><text x="358.3" y="126" class="axis-label" text-anchor="middle">08-18</text><text x="444.3" y="126" class="axis-label" text-anchor="middle">08-21</text><text x="530.3" y="126" class="axis-label" text-anchor="middle">08-24</text><text x="616.3" y="126" class="axis-label" text-anchor="middle">08-27</text><text x="702.3" y="126" class="axis-label" text-anchor="middle">08-30</text><text x="788.3" y="126" class="axis-label" text-anchor="middle">09-02</text><text x="845.7" y="126" class="axis-label" text-anchor="middle">09-04</text>
+      </g>
+    </svg></div>
+    </div><div class="leaf-card">
+      <h4>穴埋め編</h4>
+      <div class="tiles compact"><div class="tile">
+      <div class="tile-label">消化率</div>
+      <div class="tile-value">0.0%</div>
+      <div class="tile-sub">0 / 402 枚</div>
+    </div><div class="tile">
+      <div class="tile-label">残り新規</div>
+      <div class="tile-value">402枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">今日の復習予定</div>
+      <div class="tile-value">0枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">終了予測（楽観）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">稼働日ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">終了予測（現実的）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">全日平均ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">直近14日 正答率</div>
+      <div class="tile-value">—</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">直近14日 1日あたり復習</div>
+      <div class="tile-value">0.0</div>
+      
+    </div></div>
+      <div class="chart-wrap"><div class="legend">
+      <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
+      <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
+    </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
+      <g transform="translate(40,4)">
+        <line x1="0" y1="110.0" x2="860" y2="110.0" class="gridline" /><text x="-6" y="110.0" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="73.3" x2="860" y2="73.3" class="gridline" /><text x="-6" y="73.3" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="36.7" x2="860" y2="36.7" class="gridline" /><text x="-6" y="36.7" class="axis-label" text-anchor="end" dominant-baseline="middle">1</text><line x1="0" y1="0.0" x2="860" y2="0.0" class="gridline" /><text x="-6" y="0.0" class="axis-label" text-anchor="end" dominant-baseline="middle">1</text>
+        <text x="14.3" y="126" class="axis-label" text-anchor="middle">08-06</text><text x="100.3" y="126" class="axis-label" text-anchor="middle">08-09</text><text x="186.3" y="126" class="axis-label" text-anchor="middle">08-12</text><text x="272.3" y="126" class="axis-label" text-anchor="middle">08-15</text><text x="358.3" y="126" class="axis-label" text-anchor="middle">08-18</text><text x="444.3" y="126" class="axis-label" text-anchor="middle">08-21</text><text x="530.3" y="126" class="axis-label" text-anchor="middle">08-24</text><text x="616.3" y="126" class="axis-label" text-anchor="middle">08-27</text><text x="702.3" y="126" class="axis-label" text-anchor="middle">08-30</text><text x="788.3" y="126" class="axis-label" text-anchor="middle">09-02</text><text x="845.7" y="126" class="axis-label" text-anchor="middle">09-04</text>
+      </g>
+    </svg></div>
+    </div></div>
+    </section><section class="subject-group">
+      <h2>消化器系Ⅱ</h2>
+      <div class="tiles"><div class="tile">
+      <div class="tile-label">消化率</div>
+      <div class="tile-value">0.0%</div>
+      <div class="tile-sub">0 / 877 枚</div>
+    </div><div class="tile">
+      <div class="tile-label">残り新規</div>
+      <div class="tile-value">877枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">今日の復習予定</div>
+      <div class="tile-value">0枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">終了予測（楽観）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">稼働日ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">終了予測（現実的）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">全日平均ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">直近14日 正答率</div>
+      <div class="tile-value">—</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">直近14日 1日あたり復習</div>
+      <div class="tile-value">0.0</div>
+      
+    </div></div>
+      <div class="leaf-grid"><div class="leaf-card">
+      <h4>問題編</h4>
+      <div class="tiles compact"><div class="tile">
+      <div class="tile-label">消化率</div>
+      <div class="tile-value">0.0%</div>
+      <div class="tile-sub">0 / 368 枚</div>
+    </div><div class="tile">
+      <div class="tile-label">残り新規</div>
+      <div class="tile-value">368枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">今日の復習予定</div>
+      <div class="tile-value">0枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">終了予測（楽観）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">稼働日ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">終了予測（現実的）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">全日平均ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">直近14日 正答率</div>
+      <div class="tile-value">—</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">直近14日 1日あたり復習</div>
+      <div class="tile-value">0.0</div>
+      
+    </div></div>
+      <div class="chart-wrap"><div class="legend">
+      <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
+      <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
+    </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
+      <g transform="translate(40,4)">
+        <line x1="0" y1="110.0" x2="860" y2="110.0" class="gridline" /><text x="-6" y="110.0" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="73.3" x2="860" y2="73.3" class="gridline" /><text x="-6" y="73.3" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="36.7" x2="860" y2="36.7" class="gridline" /><text x="-6" y="36.7" class="axis-label" text-anchor="end" dominant-baseline="middle">1</text><line x1="0" y1="0.0" x2="860" y2="0.0" class="gridline" /><text x="-6" y="0.0" class="axis-label" text-anchor="end" dominant-baseline="middle">1</text>
+        <text x="14.3" y="126" class="axis-label" text-anchor="middle">08-06</text><text x="100.3" y="126" class="axis-label" text-anchor="middle">08-09</text><text x="186.3" y="126" class="axis-label" text-anchor="middle">08-12</text><text x="272.3" y="126" class="axis-label" text-anchor="middle">08-15</text><text x="358.3" y="126" class="axis-label" text-anchor="middle">08-18</text><text x="444.3" y="126" class="axis-label" text-anchor="middle">08-21</text><text x="530.3" y="126" class="axis-label" text-anchor="middle">08-24</text><text x="616.3" y="126" class="axis-label" text-anchor="middle">08-27</text><text x="702.3" y="126" class="axis-label" text-anchor="middle">08-30</text><text x="788.3" y="126" class="axis-label" text-anchor="middle">09-02</text><text x="845.7" y="126" class="axis-label" text-anchor="middle">09-04</text>
+      </g>
+    </svg></div>
+    </div><div class="leaf-card">
+      <h4>穴埋め編</h4>
+      <div class="tiles compact"><div class="tile">
+      <div class="tile-label">消化率</div>
+      <div class="tile-value">0.0%</div>
+      <div class="tile-sub">0 / 509 枚</div>
+    </div><div class="tile">
+      <div class="tile-label">残り新規</div>
+      <div class="tile-value">509枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">今日の復習予定</div>
+      <div class="tile-value">0枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">終了予測（楽観）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">稼働日ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">終了予測（現実的）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">全日平均ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">直近14日 正答率</div>
+      <div class="tile-value">—</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">直近14日 1日あたり復習</div>
+      <div class="tile-value">0.0</div>
+      
+    </div></div>
+      <div class="chart-wrap"><div class="legend">
+      <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
+      <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
+    </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
+      <g transform="translate(40,4)">
+        <line x1="0" y1="110.0" x2="860" y2="110.0" class="gridline" /><text x="-6" y="110.0" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="73.3" x2="860" y2="73.3" class="gridline" /><text x="-6" y="73.3" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="36.7" x2="860" y2="36.7" class="gridline" /><text x="-6" y="36.7" class="axis-label" text-anchor="end" dominant-baseline="middle">1</text><line x1="0" y1="0.0" x2="860" y2="0.0" class="gridline" /><text x="-6" y="0.0" class="axis-label" text-anchor="end" dominant-baseline="middle">1</text>
+        <text x="14.3" y="126" class="axis-label" text-anchor="middle">08-06</text><text x="100.3" y="126" class="axis-label" text-anchor="middle">08-09</text><text x="186.3" y="126" class="axis-label" text-anchor="middle">08-12</text><text x="272.3" y="126" class="axis-label" text-anchor="middle">08-15</text><text x="358.3" y="126" class="axis-label" text-anchor="middle">08-18</text><text x="444.3" y="126" class="axis-label" text-anchor="middle">08-21</text><text x="530.3" y="126" class="axis-label" text-anchor="middle">08-24</text><text x="616.3" y="126" class="axis-label" text-anchor="middle">08-27</text><text x="702.3" y="126" class="axis-label" text-anchor="middle">08-30</text><text x="788.3" y="126" class="axis-label" text-anchor="middle">09-02</text><text x="845.7" y="126" class="axis-label" text-anchor="middle">09-04</text>
+      </g>
+    </svg></div>
+    </div></div>
+    </section><section class="subject-group">
+      <h2>神経系</h2>
+      <div class="tiles"><div class="tile">
+      <div class="tile-label">消化率</div>
+      <div class="tile-value">3.6%</div>
+      <div class="tile-sub">32 / 879 枚</div>
+    </div><div class="tile">
+      <div class="tile-label">残り新規</div>
+      <div class="tile-value">847枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">今日の復習予定</div>
+      <div class="tile-value">32枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">終了予測（楽観）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">稼働日ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">終了予測（現実的）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">全日平均ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">直近14日 正答率</div>
+      <div class="tile-value">—</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">直近14日 1日あたり復習</div>
+      <div class="tile-value">0.0</div>
+      
+    </div></div>
+      <div class="leaf-grid"><div class="leaf-card">
+      <h4>問題編</h4>
+      <div class="tiles compact"><div class="tile">
+      <div class="tile-label">消化率</div>
+      <div class="tile-value">4.7%</div>
+      <div class="tile-sub">6 / 129 枚</div>
+    </div><div class="tile">
+      <div class="tile-label">残り新規</div>
+      <div class="tile-value">123枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">今日の復習予定</div>
+      <div class="tile-value">6枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">終了予測（楽観）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">稼働日ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">終了予測（現実的）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">全日平均ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">直近14日 正答率</div>
+      <div class="tile-value">—</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">直近14日 1日あたり復習</div>
+      <div class="tile-value">0.0</div>
+      
+    </div></div>
+      <div class="chart-wrap"><div class="legend">
+      <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
+      <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
+    </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
+      <g transform="translate(40,4)">
+        <line x1="0" y1="110.0" x2="860" y2="110.0" class="gridline" /><text x="-6" y="110.0" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="73.3" x2="860" y2="73.3" class="gridline" /><text x="-6" y="73.3" class="axis-label" text-anchor="end" dominant-baseline="middle">6</text><line x1="0" y1="36.7" x2="860" y2="36.7" class="gridline" /><text x="-6" y="36.7" class="axis-label" text-anchor="end" dominant-baseline="middle">12</text><line x1="0" y1="0.0" x2="860" y2="0.0" class="gridline" /><text x="-6" y="0.0" class="axis-label" text-anchor="end" dominant-baseline="middle">18</text>
+        <text x="14.3" y="126" class="axis-label" text-anchor="middle">08-06</text><text x="100.3" y="126" class="axis-label" text-anchor="middle">08-09</text><rect x="174.3" y="0.0" width="24.0" height="110.0" rx="4" fill="var(--series-1)"><title>08-12: 新規 18</title></rect><text x="186.3" y="126" class="axis-label" text-anchor="middle">08-12</text><text x="272.3" y="126" class="axis-label" text-anchor="middle">08-15</text><text x="358.3" y="126" class="axis-label" text-anchor="middle">08-18</text><text x="444.3" y="126" class="axis-label" text-anchor="middle">08-21</text><text x="530.3" y="126" class="axis-label" text-anchor="middle">08-24</text><text x="616.3" y="126" class="axis-label" text-anchor="middle">08-27</text><text x="702.3" y="126" class="axis-label" text-anchor="middle">08-30</text><text x="788.3" y="126" class="axis-label" text-anchor="middle">09-02</text><text x="845.7" y="126" class="axis-label" text-anchor="middle">09-04</text>
+      </g>
+    </svg></div>
+    </div><div class="leaf-card">
+      <h4>穴埋め編</h4>
+      <div class="tiles compact"><div class="tile">
+      <div class="tile-label">消化率</div>
+      <div class="tile-value">3.5%</div>
+      <div class="tile-sub">26 / 750 枚</div>
+    </div><div class="tile">
+      <div class="tile-label">残り新規</div>
+      <div class="tile-value">724枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">今日の復習予定</div>
+      <div class="tile-value">26枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">終了予測（楽観）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">稼働日ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">終了予測（現実的）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">全日平均ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">直近14日 正答率</div>
+      <div class="tile-value">—</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">直近14日 1日あたり復習</div>
+      <div class="tile-value">0.0</div>
+      
+    </div></div>
+      <div class="chart-wrap"><div class="legend">
+      <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
+      <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
+    </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
+      <g transform="translate(40,4)">
+        <line x1="0" y1="110.0" x2="860" y2="110.0" class="gridline" /><text x="-6" y="110.0" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="73.3" x2="860" y2="73.3" class="gridline" /><text x="-6" y="73.3" class="axis-label" text-anchor="end" dominant-baseline="middle">16</text><line x1="0" y1="36.7" x2="860" y2="36.7" class="gridline" /><text x="-6" y="36.7" class="axis-label" text-anchor="end" dominant-baseline="middle">31</text><line x1="0" y1="0.0" x2="860" y2="0.0" class="gridline" /><text x="-6" y="0.0" class="axis-label" text-anchor="end" dominant-baseline="middle">47</text>
+        <text x="14.3" y="126" class="axis-label" text-anchor="middle">08-06</text><text x="100.3" y="126" class="axis-label" text-anchor="middle">08-09</text><rect x="174.3" y="0.0" width="24.0" height="110.0" rx="4" fill="var(--series-2)"><title>08-12: 復習 47</title></rect><text x="186.3" y="126" class="axis-label" text-anchor="middle">08-12</text><text x="272.3" y="126" class="axis-label" text-anchor="middle">08-15</text><text x="358.3" y="126" class="axis-label" text-anchor="middle">08-18</text><text x="444.3" y="126" class="axis-label" text-anchor="middle">08-21</text><text x="530.3" y="126" class="axis-label" text-anchor="middle">08-24</text><text x="616.3" y="126" class="axis-label" text-anchor="middle">08-27</text><text x="702.3" y="126" class="axis-label" text-anchor="middle">08-30</text><text x="788.3" y="126" class="axis-label" text-anchor="middle">09-02</text><text x="845.7" y="126" class="axis-label" text-anchor="middle">09-04</text>
+      </g>
+    </svg></div>
+    </div></div>
+    </section><section class="subject-group">
+      <h2>精神系</h2>
+      <div class="tiles"><div class="tile">
+      <div class="tile-label">消化率</div>
+      <div class="tile-value">0.0%</div>
+      <div class="tile-sub">0 / 1,028 枚</div>
+    </div><div class="tile">
+      <div class="tile-label">残り新規</div>
+      <div class="tile-value">1,028枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">今日の復習予定</div>
+      <div class="tile-value">0枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">終了予測（楽観）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">稼働日ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">終了予測（現実的）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">全日平均ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">直近14日 正答率</div>
+      <div class="tile-value">—</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">直近14日 1日あたり復習</div>
+      <div class="tile-value">0.0</div>
+      
+    </div></div>
+      <div class="leaf-grid"><div class="leaf-card">
+      <h4>問題編</h4>
+      <div class="tiles compact"><div class="tile">
+      <div class="tile-label">消化率</div>
+      <div class="tile-value">0.0%</div>
+      <div class="tile-sub">0 / 251 枚</div>
+    </div><div class="tile">
+      <div class="tile-label">残り新規</div>
+      <div class="tile-value">251枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">今日の復習予定</div>
+      <div class="tile-value">0枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">終了予測（楽観）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">稼働日ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">終了予測（現実的）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">全日平均ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">直近14日 正答率</div>
+      <div class="tile-value">—</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">直近14日 1日あたり復習</div>
+      <div class="tile-value">0.0</div>
+      
+    </div></div>
+      <div class="chart-wrap"><div class="legend">
+      <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
+      <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
+    </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
+      <g transform="translate(40,4)">
+        <line x1="0" y1="110.0" x2="860" y2="110.0" class="gridline" /><text x="-6" y="110.0" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="73.3" x2="860" y2="73.3" class="gridline" /><text x="-6" y="73.3" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="36.7" x2="860" y2="36.7" class="gridline" /><text x="-6" y="36.7" class="axis-label" text-anchor="end" dominant-baseline="middle">1</text><line x1="0" y1="0.0" x2="860" y2="0.0" class="gridline" /><text x="-6" y="0.0" class="axis-label" text-anchor="end" dominant-baseline="middle">1</text>
+        <text x="14.3" y="126" class="axis-label" text-anchor="middle">08-06</text><text x="100.3" y="126" class="axis-label" text-anchor="middle">08-09</text><text x="186.3" y="126" class="axis-label" text-anchor="middle">08-12</text><text x="272.3" y="126" class="axis-label" text-anchor="middle">08-15</text><text x="358.3" y="126" class="axis-label" text-anchor="middle">08-18</text><text x="444.3" y="126" class="axis-label" text-anchor="middle">08-21</text><text x="530.3" y="126" class="axis-label" text-anchor="middle">08-24</text><text x="616.3" y="126" class="axis-label" text-anchor="middle">08-27</text><text x="702.3" y="126" class="axis-label" text-anchor="middle">08-30</text><text x="788.3" y="126" class="axis-label" text-anchor="middle">09-02</text><text x="845.7" y="126" class="axis-label" text-anchor="middle">09-04</text>
+      </g>
+    </svg></div>
+    </div><div class="leaf-card">
+      <h4>穴埋め編</h4>
+      <div class="tiles compact"><div class="tile">
+      <div class="tile-label">消化率</div>
+      <div class="tile-value">0.0%</div>
+      <div class="tile-sub">0 / 777 枚</div>
+    </div><div class="tile">
+      <div class="tile-label">残り新規</div>
+      <div class="tile-value">777枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">今日の復習予定</div>
+      <div class="tile-value">0枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">終了予測（楽観）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">稼働日ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">終了予測（現実的）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">全日平均ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">直近14日 正答率</div>
+      <div class="tile-value">—</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">直近14日 1日あたり復習</div>
+      <div class="tile-value">0.0</div>
+      
+    </div></div>
+      <div class="chart-wrap"><div class="legend">
+      <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
+      <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
+    </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
+      <g transform="translate(40,4)">
+        <line x1="0" y1="110.0" x2="860" y2="110.0" class="gridline" /><text x="-6" y="110.0" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="73.3" x2="860" y2="73.3" class="gridline" /><text x="-6" y="73.3" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="36.7" x2="860" y2="36.7" class="gridline" /><text x="-6" y="36.7" class="axis-label" text-anchor="end" dominant-baseline="middle">1</text><line x1="0" y1="0.0" x2="860" y2="0.0" class="gridline" /><text x="-6" y="0.0" class="axis-label" text-anchor="end" dominant-baseline="middle">1</text>
+        <text x="14.3" y="126" class="axis-label" text-anchor="middle">08-06</text><text x="100.3" y="126" class="axis-label" text-anchor="middle">08-09</text><text x="186.3" y="126" class="axis-label" text-anchor="middle">08-12</text><text x="272.3" y="126" class="axis-label" text-anchor="middle">08-15</text><text x="358.3" y="126" class="axis-label" text-anchor="middle">08-18</text><text x="444.3" y="126" class="axis-label" text-anchor="middle">08-21</text><text x="530.3" y="126" class="axis-label" text-anchor="middle">08-24</text><text x="616.3" y="126" class="axis-label" text-anchor="middle">08-27</text><text x="702.3" y="126" class="axis-label" text-anchor="middle">08-30</text><text x="788.3" y="126" class="axis-label" text-anchor="middle">09-02</text><text x="845.7" y="126" class="axis-label" text-anchor="middle">09-04</text>
+      </g>
+    </svg></div>
+    </div></div>
+    </section><section class="subject-group">
+      <h2>耳鼻・咽喉・口腔系</h2>
+      <div class="tiles"><div class="tile">
+      <div class="tile-label">消化率</div>
+      <div class="tile-value">0.0%</div>
+      <div class="tile-sub">0 / 652 枚</div>
+    </div><div class="tile">
+      <div class="tile-label">残り新規</div>
+      <div class="tile-value">652枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">今日の復習予定</div>
+      <div class="tile-value">0枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">終了予測（楽観）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">稼働日ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">終了予測（現実的）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">全日平均ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">直近14日 正答率</div>
+      <div class="tile-value">—</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">直近14日 1日あたり復習</div>
+      <div class="tile-value">0.0</div>
+      
+    </div></div>
+      <div class="leaf-grid"><div class="leaf-card">
+      <h4>問題編</h4>
+      <div class="tiles compact"><div class="tile">
+      <div class="tile-label">消化率</div>
+      <div class="tile-value">0.0%</div>
+      <div class="tile-sub">0 / 115 枚</div>
+    </div><div class="tile">
+      <div class="tile-label">残り新規</div>
+      <div class="tile-value">115枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">今日の復習予定</div>
+      <div class="tile-value">0枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">終了予測（楽観）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">稼働日ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">終了予測（現実的）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">全日平均ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">直近14日 正答率</div>
+      <div class="tile-value">—</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">直近14日 1日あたり復習</div>
+      <div class="tile-value">0.0</div>
+      
+    </div></div>
+      <div class="chart-wrap"><div class="legend">
+      <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
+      <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
+    </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
+      <g transform="translate(40,4)">
+        <line x1="0" y1="110.0" x2="860" y2="110.0" class="gridline" /><text x="-6" y="110.0" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="73.3" x2="860" y2="73.3" class="gridline" /><text x="-6" y="73.3" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="36.7" x2="860" y2="36.7" class="gridline" /><text x="-6" y="36.7" class="axis-label" text-anchor="end" dominant-baseline="middle">1</text><line x1="0" y1="0.0" x2="860" y2="0.0" class="gridline" /><text x="-6" y="0.0" class="axis-label" text-anchor="end" dominant-baseline="middle">1</text>
+        <text x="14.3" y="126" class="axis-label" text-anchor="middle">08-06</text><text x="100.3" y="126" class="axis-label" text-anchor="middle">08-09</text><text x="186.3" y="126" class="axis-label" text-anchor="middle">08-12</text><text x="272.3" y="126" class="axis-label" text-anchor="middle">08-15</text><text x="358.3" y="126" class="axis-label" text-anchor="middle">08-18</text><text x="444.3" y="126" class="axis-label" text-anchor="middle">08-21</text><text x="530.3" y="126" class="axis-label" text-anchor="middle">08-24</text><text x="616.3" y="126" class="axis-label" text-anchor="middle">08-27</text><text x="702.3" y="126" class="axis-label" text-anchor="middle">08-30</text><text x="788.3" y="126" class="axis-label" text-anchor="middle">09-02</text><text x="845.7" y="126" class="axis-label" text-anchor="middle">09-04</text>
+      </g>
+    </svg></div>
+    </div><div class="leaf-card">
+      <h4>穴埋め編</h4>
+      <div class="tiles compact"><div class="tile">
+      <div class="tile-label">消化率</div>
+      <div class="tile-value">0.0%</div>
+      <div class="tile-sub">0 / 537 枚</div>
+    </div><div class="tile">
+      <div class="tile-label">残り新規</div>
+      <div class="tile-value">537枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">今日の復習予定</div>
+      <div class="tile-value">0枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">終了予測（楽観）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">稼働日ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">終了予測（現実的）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">全日平均ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">直近14日 正答率</div>
+      <div class="tile-value">—</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">直近14日 1日あたり復習</div>
+      <div class="tile-value">0.0</div>
+      
+    </div></div>
+      <div class="chart-wrap"><div class="legend">
+      <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
+      <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
+    </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
+      <g transform="translate(40,4)">
+        <line x1="0" y1="110.0" x2="860" y2="110.0" class="gridline" /><text x="-6" y="110.0" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="73.3" x2="860" y2="73.3" class="gridline" /><text x="-6" y="73.3" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="36.7" x2="860" y2="36.7" class="gridline" /><text x="-6" y="36.7" class="axis-label" text-anchor="end" dominant-baseline="middle">1</text><line x1="0" y1="0.0" x2="860" y2="0.0" class="gridline" /><text x="-6" y="0.0" class="axis-label" text-anchor="end" dominant-baseline="middle">1</text>
+        <text x="14.3" y="126" class="axis-label" text-anchor="middle">08-06</text><text x="100.3" y="126" class="axis-label" text-anchor="middle">08-09</text><text x="186.3" y="126" class="axis-label" text-anchor="middle">08-12</text><text x="272.3" y="126" class="axis-label" text-anchor="middle">08-15</text><text x="358.3" y="126" class="axis-label" text-anchor="middle">08-18</text><text x="444.3" y="126" class="axis-label" text-anchor="middle">08-21</text><text x="530.3" y="126" class="axis-label" text-anchor="middle">08-24</text><text x="616.3" y="126" class="axis-label" text-anchor="middle">08-27</text><text x="702.3" y="126" class="axis-label" text-anchor="middle">08-30</text><text x="788.3" y="126" class="axis-label" text-anchor="middle">09-02</text><text x="845.7" y="126" class="axis-label" text-anchor="middle">09-04</text>
+      </g>
+    </svg></div>
+    </div></div>
+    </section><section class="subject-group">
+      <h2>運動器系</h2>
+      <div class="tiles"><div class="tile">
+      <div class="tile-label">消化率</div>
+      <div class="tile-value">0.0%</div>
+      <div class="tile-sub">0 / 864 枚</div>
+    </div><div class="tile">
+      <div class="tile-label">残り新規</div>
+      <div class="tile-value">864枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">今日の復習予定</div>
+      <div class="tile-value">0枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">終了予測（楽観）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">稼働日ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">終了予測（現実的）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">全日平均ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">直近14日 正答率</div>
+      <div class="tile-value">—</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">直近14日 1日あたり復習</div>
+      <div class="tile-value">0.0</div>
+      
+    </div></div>
+      <div class="leaf-grid"><div class="leaf-card">
+      <h4>問題編</h4>
+      <div class="tiles compact"><div class="tile">
+      <div class="tile-label">消化率</div>
+      <div class="tile-value">0.0%</div>
+      <div class="tile-sub">0 / 250 枚</div>
+    </div><div class="tile">
+      <div class="tile-label">残り新規</div>
+      <div class="tile-value">250枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">今日の復習予定</div>
+      <div class="tile-value">0枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">終了予測（楽観）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">稼働日ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">終了予測（現実的）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">全日平均ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">直近14日 正答率</div>
+      <div class="tile-value">—</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">直近14日 1日あたり復習</div>
+      <div class="tile-value">0.0</div>
+      
+    </div></div>
+      <div class="chart-wrap"><div class="legend">
+      <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
+      <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
+    </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
+      <g transform="translate(40,4)">
+        <line x1="0" y1="110.0" x2="860" y2="110.0" class="gridline" /><text x="-6" y="110.0" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="73.3" x2="860" y2="73.3" class="gridline" /><text x="-6" y="73.3" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="36.7" x2="860" y2="36.7" class="gridline" /><text x="-6" y="36.7" class="axis-label" text-anchor="end" dominant-baseline="middle">1</text><line x1="0" y1="0.0" x2="860" y2="0.0" class="gridline" /><text x="-6" y="0.0" class="axis-label" text-anchor="end" dominant-baseline="middle">1</text>
+        <text x="14.3" y="126" class="axis-label" text-anchor="middle">08-06</text><text x="100.3" y="126" class="axis-label" text-anchor="middle">08-09</text><text x="186.3" y="126" class="axis-label" text-anchor="middle">08-12</text><text x="272.3" y="126" class="axis-label" text-anchor="middle">08-15</text><text x="358.3" y="126" class="axis-label" text-anchor="middle">08-18</text><text x="444.3" y="126" class="axis-label" text-anchor="middle">08-21</text><text x="530.3" y="126" class="axis-label" text-anchor="middle">08-24</text><text x="616.3" y="126" class="axis-label" text-anchor="middle">08-27</text><text x="702.3" y="126" class="axis-label" text-anchor="middle">08-30</text><text x="788.3" y="126" class="axis-label" text-anchor="middle">09-02</text><text x="845.7" y="126" class="axis-label" text-anchor="middle">09-04</text>
+      </g>
+    </svg></div>
+    </div><div class="leaf-card">
+      <h4>穴埋め編</h4>
+      <div class="tiles compact"><div class="tile">
+      <div class="tile-label">消化率</div>
+      <div class="tile-value">0.0%</div>
+      <div class="tile-sub">0 / 614 枚</div>
+    </div><div class="tile">
+      <div class="tile-label">残り新規</div>
+      <div class="tile-value">614枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">今日の復習予定</div>
+      <div class="tile-value">0枚</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">終了予測（楽観）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">稼働日ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">終了予測（現実的）</div>
+      <div class="tile-value">算出不可</div>
+      <div class="tile-sub">全日平均ペース基準</div>
+    </div><div class="tile">
+      <div class="tile-label">直近14日 正答率</div>
+      <div class="tile-value">—</div>
+      
+    </div><div class="tile">
+      <div class="tile-label">直近14日 1日あたり復習</div>
+      <div class="tile-value">0.0</div>
+      
+    </div></div>
+      <div class="chart-wrap"><div class="legend">
+      <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>新規</span>
+      <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>復習</span>
+    </div><svg viewBox="0 0 860 140" class="chart" role="img" preserveAspectRatio="none">
+      <g transform="translate(40,4)">
+        <line x1="0" y1="110.0" x2="860" y2="110.0" class="gridline" /><text x="-6" y="110.0" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="73.3" x2="860" y2="73.3" class="gridline" /><text x="-6" y="73.3" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="36.7" x2="860" y2="36.7" class="gridline" /><text x="-6" y="36.7" class="axis-label" text-anchor="end" dominant-baseline="middle">1</text><line x1="0" y1="0.0" x2="860" y2="0.0" class="gridline" /><text x="-6" y="0.0" class="axis-label" text-anchor="end" dominant-baseline="middle">1</text>
+        <text x="14.3" y="126" class="axis-label" text-anchor="middle">08-06</text><text x="100.3" y="126" class="axis-label" text-anchor="middle">08-09</text><text x="186.3" y="126" class="axis-label" text-anchor="middle">08-12</text><text x="272.3" y="126" class="axis-label" text-anchor="middle">08-15</text><text x="358.3" y="126" class="axis-label" text-anchor="middle">08-18</text><text x="444.3" y="126" class="axis-label" text-anchor="middle">08-21</text><text x="530.3" y="126" class="axis-label" text-anchor="middle">08-24</text><text x="616.3" y="126" class="axis-label" text-anchor="middle">08-27</text><text x="702.3" y="126" class="axis-label" text-anchor="middle">08-30</text><text x="788.3" y="126" class="axis-label" text-anchor="middle">09-02</text><text x="845.7" y="126" class="axis-label" text-anchor="middle">09-04</text>
+      </g>
+    </svg></div>
+    </div></div>
+    </section>
+
+  <section class="chart-section">
+    <h2>今後の復習負荷カレンダー</h2>
+    <div class="chart-wrap"><svg viewBox="0 0 860 180" class="chart" role="img" preserveAspectRatio="none">
+      <g transform="translate(40,4)">
+        <line x1="0" y1="150.0" x2="860" y2="150.0" class="gridline" /><text x="-6" y="150.0" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="100.0" x2="860" y2="100.0" class="gridline" /><text x="-6" y="100.0" class="axis-label" text-anchor="end" dominant-baseline="middle">11</text><line x1="0" y1="50.0" x2="860" y2="50.0" class="gridline" /><text x="-6" y="50.0" class="axis-label" text-anchor="end" dominant-baseline="middle">21</text><line x1="0" y1="0.0" x2="860" y2="0.0" class="gridline" /><text x="-6" y="0.0" class="axis-label" text-anchor="end" dominant-baseline="middle">32</text>
+        <rect x="1.9" y="0.0" width="24.0" height="150.0" rx="4" fill="var(--series-1)"><title>2026-09-04: 32枚</title></rect><text x="13.9" y="166" class="axis-label" text-anchor="middle">09-04</text><rect x="29.6" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-05: 0枚</title></rect><rect x="57.4" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-06: 0枚</title></rect><rect x="85.1" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-07: 0枚</title></rect><text x="97.1" y="166" class="axis-label" text-anchor="middle">09-07</text><rect x="112.8" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-08: 0枚</title></rect><rect x="140.6" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-09: 0枚</title></rect><rect x="168.3" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-10: 0枚</title></rect><text x="180.3" y="166" class="axis-label" text-anchor="middle">09-10</text><rect x="196.1" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-11: 0枚</title></rect><rect x="223.8" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-12: 0枚</title></rect><rect x="251.5" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-13: 0枚</title></rect><text x="263.5" y="166" class="axis-label" text-anchor="middle">09-13</text><rect x="279.3" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-14: 0枚</title></rect><rect x="307.0" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-15: 0枚</title></rect><rect x="334.8" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-16: 0枚</title></rect><text x="346.8" y="166" class="axis-label" text-anchor="middle">09-16</text><rect x="362.5" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-17: 0枚</title></rect><rect x="390.3" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-18: 0枚</title></rect><rect x="418.0" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-19: 0枚</title></rect><text x="430.0" y="166" class="axis-label" text-anchor="middle">09-19</text><rect x="445.7" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-20: 0枚</title></rect><rect x="473.5" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-21: 0枚</title></rect><rect x="501.2" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-22: 0枚</title></rect><text x="513.2" y="166" class="axis-label" text-anchor="middle">09-22</text><rect x="529.0" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-23: 0枚</title></rect><rect x="556.7" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-24: 0枚</title></rect><rect x="584.5" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-25: 0枚</title></rect><text x="596.5" y="166" class="axis-label" text-anchor="middle">09-25</text><rect x="612.2" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-26: 0枚</title></rect><rect x="639.9" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-27: 0枚</title></rect><rect x="667.7" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-28: 0枚</title></rect><text x="679.7" y="166" class="axis-label" text-anchor="middle">09-28</text><rect x="695.4" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-29: 0枚</title></rect><rect x="723.2" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-30: 0枚</title></rect><rect x="750.9" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-10-01: 0枚</title></rect><text x="762.9" y="166" class="axis-label" text-anchor="middle">10-01</text><rect x="778.6" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-10-02: 0枚</title></rect><rect x="806.4" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-10-03: 0枚</title></rect><rect x="834.1" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-10-04: 0枚</title></rect><text x="846.1" y="166" class="axis-label" text-anchor="middle">10-04</text>
+      </g>
+    </svg></div>
+  </section>
+
+  <section class="chart-section">
+    <h2>曜日別 平均復習数</h2>
+    <div class="chart-wrap"><svg viewBox="0 0 420 180" class="chart" role="img" preserveAspectRatio="none">
+      <g transform="translate(40,4)">
+        <line x1="0" y1="150.0" x2="420" y2="150.0" class="gridline" /><text x="-6" y="150.0" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="100.0" x2="420" y2="100.0" class="gridline" /><text x="-6" y="100.0" class="axis-label" text-anchor="end" dominant-baseline="middle">17</text><line x1="0" y1="50.0" x2="420" y2="50.0" class="gridline" /><text x="-6" y="50.0" class="axis-label" text-anchor="end" dominant-baseline="middle">33</text><line x1="0" y1="0.0" x2="420" y2="0.0" class="gridline" /><text x="-6" y="0.0" class="axis-label" text-anchor="end" dominant-baseline="middle">50</text>
+        <rect x="14.0" y="150.0" width="32.0" height="0.0" rx="4" fill="var(--series-1)"><title>月曜日: 平均0.0枚</title></rect><text x="30.0" y="166" class="axis-label" text-anchor="middle">月</text><rect x="74.0" y="0.0" width="32.0" height="150.0" rx="4" fill="var(--series-1)"><title>火曜日: 平均50.0枚</title></rect><text x="90.0" y="166" class="axis-label" text-anchor="middle">火</text><rect x="134.0" y="42.0" width="32.0" height="108.0" rx="4" fill="var(--series-1)"><title>水曜日: 平均36.0枚</title></rect><text x="150.0" y="166" class="axis-label" text-anchor="middle">水</text><rect x="194.0" y="150.0" width="32.0" height="0.0" rx="4" fill="var(--series-1)"><title>木曜日: 平均0.0枚</title></rect><text x="210.0" y="166" class="axis-label" text-anchor="middle">木</text><rect x="254.0" y="150.0" width="32.0" height="0.0" rx="4" fill="var(--series-1)"><title>金曜日: 平均0.0枚</title></rect><text x="270.0" y="166" class="axis-label" text-anchor="middle">金</text><rect x="314.0" y="150.0" width="32.0" height="0.0" rx="4" fill="var(--series-1)"><title>土曜日: 平均0.0枚</title></rect><text x="330.0" y="166" class="axis-label" text-anchor="middle">土</text><rect x="374.0" y="150.0" width="32.0" height="0.0" rx="4" fill="var(--series-1)"><title>日曜日: 平均0.0枚</title></rect><text x="390.0" y="166" class="axis-label" text-anchor="middle">日</text>
+      </g>
+    </svg></div>
+  </section>
+</div>
+
 </body>
 </html>
