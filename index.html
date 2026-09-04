@@ -182,16 +182,33 @@
   .legend { display: flex; gap: 16px; margin-bottom: 8px; font-size: 12px; color: var(--text-secondary); }
   .legend-item { display: flex; align-items: center; gap: 6px; }
   .swatch { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+  .refresh-row { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+  .refresh-btn {
+    font-family: var(--font-body); font-size: 13px; font-weight: 600; color: #fff;
+    background: var(--series-1); border: none; border-radius: 8px;
+    padding: 9px 16px; cursor: pointer;
+  }
+  .refresh-btn:hover { filter: brightness(1.06); }
+  .refresh-btn:disabled { opacity: 0.6; cursor: default; }
+  .refresh-status { font-size: 12.5px; color: var(--text-secondary); }
+  .refresh-status.error { color: var(--status-warning); }
+  .refresh-note { font-size: 11.5px; color: var(--text-muted); margin: 0 0 24px; line-height: 1.6; }
+  #liveUpdated { color: var(--series-1); font-weight: 600; }
 </style>
 
 <div class="anki-dash">
   <h1>M3 2学期 学習ペース</h1>
-  <div class="meta">プロファイル: きら ・ 最終更新: 2026-09-04T10:32:06</div>
+  <div class="meta">プロファイル: きら ・ 最終同期: 2026-09-04T10:53:59<span id="liveUpdated"></span></div>
   <div class="nav-link"><a href="./simulation.html" target="_blank" rel="noopener">試験逆算シミュレーションを開く →</a></div>
+  <div class="refresh-row">
+    <button class="refresh-btn" id="refreshBtn" type="button">Ankiから今すぐ更新</button>
+    <span class="refresh-status" id="refreshStatus"></span>
+  </div>
+  <p class="refresh-note">Ankiを起動した状態で押すと、消化率・残り枚数・今日の復習予定・終了予測・負荷カレンダーをその場で最新化します（直近の推移グラフは前回の夜間同期のままです）。</p>
 
   <section class="deck-section hero">
       <h2>M3 2学期<span class="hero-badge">全体</span></h2>
-      <div class="tiles"><div class="tile">
+      <div class="tiles" id="tiles-0"><div class="tile">
       <div class="tile-label">消化率</div>
       <div class="tile-value">0.5%</div>
       <div class="tile-sub">32 / 6,513 枚</div>
@@ -235,7 +252,7 @@
       <h2>種別合計</h2>
       <div class="leaf-grid"><div class="leaf-card">
       <h4>問題編合計<span class="leaf-badge">全科目合計</span></h4>
-      <div class="tiles compact"><div class="tile">
+      <div class="tiles compact" id="tiles-cat-0"><div class="tile">
       <div class="tile-label">消化率</div>
       <div class="tile-value">0.4%</div>
       <div class="tile-sub">6 / 1,688 枚</div>
@@ -275,7 +292,7 @@
     </svg></div>
     </div><div class="leaf-card">
       <h4>穴埋め編合計<span class="leaf-badge">全科目合計</span></h4>
-      <div class="tiles compact"><div class="tile">
+      <div class="tiles compact" id="tiles-cat-1"><div class="tile">
       <div class="tile-label">消化率</div>
       <div class="tile-value">0.5%</div>
       <div class="tile-sub">26 / 4,825 枚</div>
@@ -317,7 +334,7 @@
     </section>
   <section class="subject-group">
       <h2>データ分析に基づく研究講義</h2>
-      <div class="tiles"><div class="tile">
+      <div class="tiles" id="tiles-1"><div class="tile">
       <div class="tile-label">消化率</div>
       <div class="tile-value">0.0%</div>
       <div class="tile-sub">0 / 646 枚</div>
@@ -348,7 +365,7 @@
     </div></div>
       <div class="leaf-grid"><div class="leaf-card">
       <h4>問題編</h4>
-      <div class="tiles compact"><div class="tile">
+      <div class="tiles compact" id="tiles-10"><div class="tile">
       <div class="tile-label">消化率</div>
       <div class="tile-value">0.0%</div>
       <div class="tile-sub">0 / 153 枚</div>
@@ -388,7 +405,7 @@
     </svg></div>
     </div><div class="leaf-card">
       <h4>穴埋め編</h4>
-      <div class="tiles compact"><div class="tile">
+      <div class="tiles compact" id="tiles-11"><div class="tile">
       <div class="tile-label">消化率</div>
       <div class="tile-value">0.0%</div>
       <div class="tile-sub">0 / 493 枚</div>
@@ -429,7 +446,7 @@
     </div></div>
     </section><section class="subject-group">
       <h2>女性内分泌・妊娠</h2>
-      <div class="tiles"><div class="tile">
+      <div class="tiles" id="tiles-2"><div class="tile">
       <div class="tile-label">消化率</div>
       <div class="tile-value">0.0%</div>
       <div class="tile-sub">0 / 628 枚</div>
@@ -460,7 +477,7 @@
     </div></div>
       <div class="leaf-grid"><div class="leaf-card">
       <h4>問題編</h4>
-      <div class="tiles compact"><div class="tile">
+      <div class="tiles compact" id="tiles-12"><div class="tile">
       <div class="tile-label">消化率</div>
       <div class="tile-value">0.0%</div>
       <div class="tile-sub">0 / 125 枚</div>
@@ -500,7 +517,7 @@
     </svg></div>
     </div><div class="leaf-card">
       <h4>穴埋め編</h4>
-      <div class="tiles compact"><div class="tile">
+      <div class="tiles compact" id="tiles-13"><div class="tile">
       <div class="tile-label">消化率</div>
       <div class="tile-value">0.0%</div>
       <div class="tile-sub">0 / 503 枚</div>
@@ -541,7 +558,7 @@
     </div></div>
     </section><section class="subject-group">
       <h2>循環器Ⅱ</h2>
-      <div class="tiles"><div class="tile">
+      <div class="tiles" id="tiles-3"><div class="tile">
       <div class="tile-label">消化率</div>
       <div class="tile-value">0.0%</div>
       <div class="tile-sub">0 / 336 枚</div>
@@ -572,7 +589,7 @@
     </div></div>
       <div class="leaf-grid"><div class="leaf-card">
       <h4>問題編</h4>
-      <div class="tiles compact"><div class="tile">
+      <div class="tiles compact" id="tiles-14"><div class="tile">
       <div class="tile-label">消化率</div>
       <div class="tile-value">0.0%</div>
       <div class="tile-sub">0 / 96 枚</div>
@@ -612,7 +629,7 @@
     </svg></div>
     </div><div class="leaf-card">
       <h4>穴埋め編</h4>
-      <div class="tiles compact"><div class="tile">
+      <div class="tiles compact" id="tiles-15"><div class="tile">
       <div class="tile-label">消化率</div>
       <div class="tile-value">0.0%</div>
       <div class="tile-sub">0 / 240 枚</div>
@@ -653,7 +670,7 @@
     </div></div>
     </section><section class="subject-group">
       <h2>性腺・生殖器</h2>
-      <div class="tiles"><div class="tile">
+      <div class="tiles" id="tiles-4"><div class="tile">
       <div class="tile-label">消化率</div>
       <div class="tile-value">0.0%</div>
       <div class="tile-sub">0 / 603 枚</div>
@@ -684,7 +701,7 @@
     </div></div>
       <div class="leaf-grid"><div class="leaf-card">
       <h4>問題編</h4>
-      <div class="tiles compact"><div class="tile">
+      <div class="tiles compact" id="tiles-16"><div class="tile">
       <div class="tile-label">消化率</div>
       <div class="tile-value">0.0%</div>
       <div class="tile-sub">0 / 201 枚</div>
@@ -724,7 +741,7 @@
     </svg></div>
     </div><div class="leaf-card">
       <h4>穴埋め編</h4>
-      <div class="tiles compact"><div class="tile">
+      <div class="tiles compact" id="tiles-17"><div class="tile">
       <div class="tile-label">消化率</div>
       <div class="tile-value">0.0%</div>
       <div class="tile-sub">0 / 402 枚</div>
@@ -765,7 +782,7 @@
     </div></div>
     </section><section class="subject-group">
       <h2>消化器系Ⅱ</h2>
-      <div class="tiles"><div class="tile">
+      <div class="tiles" id="tiles-5"><div class="tile">
       <div class="tile-label">消化率</div>
       <div class="tile-value">0.0%</div>
       <div class="tile-sub">0 / 877 枚</div>
@@ -796,7 +813,7 @@
     </div></div>
       <div class="leaf-grid"><div class="leaf-card">
       <h4>問題編</h4>
-      <div class="tiles compact"><div class="tile">
+      <div class="tiles compact" id="tiles-18"><div class="tile">
       <div class="tile-label">消化率</div>
       <div class="tile-value">0.0%</div>
       <div class="tile-sub">0 / 368 枚</div>
@@ -836,7 +853,7 @@
     </svg></div>
     </div><div class="leaf-card">
       <h4>穴埋め編</h4>
-      <div class="tiles compact"><div class="tile">
+      <div class="tiles compact" id="tiles-19"><div class="tile">
       <div class="tile-label">消化率</div>
       <div class="tile-value">0.0%</div>
       <div class="tile-sub">0 / 509 枚</div>
@@ -877,7 +894,7 @@
     </div></div>
     </section><section class="subject-group">
       <h2>神経系</h2>
-      <div class="tiles"><div class="tile">
+      <div class="tiles" id="tiles-6"><div class="tile">
       <div class="tile-label">消化率</div>
       <div class="tile-value">3.6%</div>
       <div class="tile-sub">32 / 879 枚</div>
@@ -908,7 +925,7 @@
     </div></div>
       <div class="leaf-grid"><div class="leaf-card">
       <h4>問題編</h4>
-      <div class="tiles compact"><div class="tile">
+      <div class="tiles compact" id="tiles-20"><div class="tile">
       <div class="tile-label">消化率</div>
       <div class="tile-value">4.7%</div>
       <div class="tile-sub">6 / 129 枚</div>
@@ -948,7 +965,7 @@
     </svg></div>
     </div><div class="leaf-card">
       <h4>穴埋め編</h4>
-      <div class="tiles compact"><div class="tile">
+      <div class="tiles compact" id="tiles-21"><div class="tile">
       <div class="tile-label">消化率</div>
       <div class="tile-value">3.5%</div>
       <div class="tile-sub">26 / 750 枚</div>
@@ -989,7 +1006,7 @@
     </div></div>
     </section><section class="subject-group">
       <h2>精神系</h2>
-      <div class="tiles"><div class="tile">
+      <div class="tiles" id="tiles-7"><div class="tile">
       <div class="tile-label">消化率</div>
       <div class="tile-value">0.0%</div>
       <div class="tile-sub">0 / 1,028 枚</div>
@@ -1020,7 +1037,7 @@
     </div></div>
       <div class="leaf-grid"><div class="leaf-card">
       <h4>問題編</h4>
-      <div class="tiles compact"><div class="tile">
+      <div class="tiles compact" id="tiles-22"><div class="tile">
       <div class="tile-label">消化率</div>
       <div class="tile-value">0.0%</div>
       <div class="tile-sub">0 / 251 枚</div>
@@ -1060,7 +1077,7 @@
     </svg></div>
     </div><div class="leaf-card">
       <h4>穴埋め編</h4>
-      <div class="tiles compact"><div class="tile">
+      <div class="tiles compact" id="tiles-23"><div class="tile">
       <div class="tile-label">消化率</div>
       <div class="tile-value">0.0%</div>
       <div class="tile-sub">0 / 777 枚</div>
@@ -1101,7 +1118,7 @@
     </div></div>
     </section><section class="subject-group">
       <h2>耳鼻・咽喉・口腔系</h2>
-      <div class="tiles"><div class="tile">
+      <div class="tiles" id="tiles-8"><div class="tile">
       <div class="tile-label">消化率</div>
       <div class="tile-value">0.0%</div>
       <div class="tile-sub">0 / 652 枚</div>
@@ -1132,7 +1149,7 @@
     </div></div>
       <div class="leaf-grid"><div class="leaf-card">
       <h4>問題編</h4>
-      <div class="tiles compact"><div class="tile">
+      <div class="tiles compact" id="tiles-24"><div class="tile">
       <div class="tile-label">消化率</div>
       <div class="tile-value">0.0%</div>
       <div class="tile-sub">0 / 115 枚</div>
@@ -1172,7 +1189,7 @@
     </svg></div>
     </div><div class="leaf-card">
       <h4>穴埋め編</h4>
-      <div class="tiles compact"><div class="tile">
+      <div class="tiles compact" id="tiles-25"><div class="tile">
       <div class="tile-label">消化率</div>
       <div class="tile-value">0.0%</div>
       <div class="tile-sub">0 / 537 枚</div>
@@ -1213,7 +1230,7 @@
     </div></div>
     </section><section class="subject-group">
       <h2>運動器系</h2>
-      <div class="tiles"><div class="tile">
+      <div class="tiles" id="tiles-9"><div class="tile">
       <div class="tile-label">消化率</div>
       <div class="tile-value">0.0%</div>
       <div class="tile-sub">0 / 864 枚</div>
@@ -1244,7 +1261,7 @@
     </div></div>
       <div class="leaf-grid"><div class="leaf-card">
       <h4>問題編</h4>
-      <div class="tiles compact"><div class="tile">
+      <div class="tiles compact" id="tiles-26"><div class="tile">
       <div class="tile-label">消化率</div>
       <div class="tile-value">0.0%</div>
       <div class="tile-sub">0 / 250 枚</div>
@@ -1284,7 +1301,7 @@
     </svg></div>
     </div><div class="leaf-card">
       <h4>穴埋め編</h4>
-      <div class="tiles compact"><div class="tile">
+      <div class="tiles compact" id="tiles-27"><div class="tile">
       <div class="tile-label">消化率</div>
       <div class="tile-value">0.0%</div>
       <div class="tile-sub">0 / 614 枚</div>
@@ -1327,7 +1344,7 @@
 
   <section class="chart-section">
     <h2>今後の復習負荷カレンダー</h2>
-    <div class="chart-wrap"><svg viewBox="0 0 860 180" class="chart" role="img" preserveAspectRatio="none">
+    <div class="chart-wrap" id="load-chart-wrap"><svg viewBox="0 0 860 180" class="chart" role="img" preserveAspectRatio="none">
       <g transform="translate(40,4)">
         <line x1="0" y1="150.0" x2="860" y2="150.0" class="gridline" /><text x="-6" y="150.0" class="axis-label" text-anchor="end" dominant-baseline="middle">0</text><line x1="0" y1="100.0" x2="860" y2="100.0" class="gridline" /><text x="-6" y="100.0" class="axis-label" text-anchor="end" dominant-baseline="middle">11</text><line x1="0" y1="50.0" x2="860" y2="50.0" class="gridline" /><text x="-6" y="50.0" class="axis-label" text-anchor="end" dominant-baseline="middle">21</text><line x1="0" y1="0.0" x2="860" y2="0.0" class="gridline" /><text x="-6" y="0.0" class="axis-label" text-anchor="end" dominant-baseline="middle">32</text>
         <rect x="1.9" y="0.0" width="24.0" height="150.0" rx="4" fill="var(--series-1)"><title>2026-09-04: 32枚</title></rect><text x="13.9" y="166" class="axis-label" text-anchor="middle">09-04</text><rect x="29.6" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-05: 0枚</title></rect><rect x="57.4" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-06: 0枚</title></rect><rect x="85.1" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-07: 0枚</title></rect><text x="97.1" y="166" class="axis-label" text-anchor="middle">09-07</text><rect x="112.8" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-08: 0枚</title></rect><rect x="140.6" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-09: 0枚</title></rect><rect x="168.3" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-10: 0枚</title></rect><text x="180.3" y="166" class="axis-label" text-anchor="middle">09-10</text><rect x="196.1" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-11: 0枚</title></rect><rect x="223.8" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-12: 0枚</title></rect><rect x="251.5" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-13: 0枚</title></rect><text x="263.5" y="166" class="axis-label" text-anchor="middle">09-13</text><rect x="279.3" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-14: 0枚</title></rect><rect x="307.0" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-15: 0枚</title></rect><rect x="334.8" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-16: 0枚</title></rect><text x="346.8" y="166" class="axis-label" text-anchor="middle">09-16</text><rect x="362.5" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-17: 0枚</title></rect><rect x="390.3" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-18: 0枚</title></rect><rect x="418.0" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-19: 0枚</title></rect><text x="430.0" y="166" class="axis-label" text-anchor="middle">09-19</text><rect x="445.7" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-20: 0枚</title></rect><rect x="473.5" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-21: 0枚</title></rect><rect x="501.2" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-22: 0枚</title></rect><text x="513.2" y="166" class="axis-label" text-anchor="middle">09-22</text><rect x="529.0" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-23: 0枚</title></rect><rect x="556.7" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-24: 0枚</title></rect><rect x="584.5" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-25: 0枚</title></rect><text x="596.5" y="166" class="axis-label" text-anchor="middle">09-25</text><rect x="612.2" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-26: 0枚</title></rect><rect x="639.9" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-27: 0枚</title></rect><rect x="667.7" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-28: 0枚</title></rect><text x="679.7" y="166" class="axis-label" text-anchor="middle">09-28</text><rect x="695.4" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-29: 0枚</title></rect><rect x="723.2" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-09-30: 0枚</title></rect><rect x="750.9" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-10-01: 0枚</title></rect><text x="762.9" y="166" class="axis-label" text-anchor="middle">10-01</text><rect x="778.6" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-10-02: 0枚</title></rect><rect x="806.4" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-10-03: 0枚</title></rect><rect x="834.1" y="150.0" width="24.0" height="0.0" rx="4" fill="var(--series-1)"><title>2026-10-04: 0枚</title></rect><text x="846.1" y="166" class="axis-label" text-anchor="middle">10-04</text>
@@ -1345,6 +1362,185 @@
     </svg></div>
   </section>
 </div>
+
+<script>
+const REFRESH_CONFIG = {"ankiconnect_url": "http://127.0.0.1:8765", "forecast_days": 30, "spike_threshold_ratio": 1.4, "leaf_decks": ["M3 2学期::データ分析に基づく研究講義::問題編", "M3 2学期::データ分析に基づく研究講義::穴埋め編", "M3 2学期::女性内分泌・妊娠::問題編", "M3 2学期::女性内分泌・妊娠::穴埋め編", "M3 2学期::循環器Ⅱ::問題編", "M3 2学期::循環器Ⅱ::穴埋め編", "M3 2学期::性腺・生殖器::問題編", "M3 2学期::性腺・生殖器::穴埋め編", "M3 2学期::消化器系Ⅱ::問題編", "M3 2学期::消化器系Ⅱ::穴埋め編", "M3 2学期::神経系::問題編", "M3 2学期::神経系::穴埋め編", "M3 2学期::精神系::問題編", "M3 2学期::精神系::穴埋め編", "M3 2学期::耳鼻・咽喉・口腔系::問題編", "M3 2学期::耳鼻・咽喉・口腔系::穴埋め編", "M3 2学期::運動器系::問題編", "M3 2学期::運動器系::穴埋め編"], "cards": [{"deck": "M3 2学期", "tile_id": "tiles-0", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::データ分析に基づく研究講義", "tile_id": "tiles-1", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::女性内分泌・妊娠", "tile_id": "tiles-2", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::循環器Ⅱ", "tile_id": "tiles-3", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::性腺・生殖器", "tile_id": "tiles-4", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::消化器系Ⅱ", "tile_id": "tiles-5", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::神経系", "tile_id": "tiles-6", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::精神系", "tile_id": "tiles-7", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::耳鼻・咽喉・口腔系", "tile_id": "tiles-8", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::運動器系", "tile_id": "tiles-9", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::データ分析に基づく研究講義::問題編", "tile_id": "tiles-10", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::データ分析に基づく研究講義::穴埋め編", "tile_id": "tiles-11", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::女性内分泌・妊娠::問題編", "tile_id": "tiles-12", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::女性内分泌・妊娠::穴埋め編", "tile_id": "tiles-13", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::循環器Ⅱ::問題編", "tile_id": "tiles-14", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::循環器Ⅱ::穴埋め編", "tile_id": "tiles-15", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::性腺・生殖器::問題編", "tile_id": "tiles-16", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::性腺・生殖器::穴埋め編", "tile_id": "tiles-17", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::消化器系Ⅱ::問題編", "tile_id": "tiles-18", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::消化器系Ⅱ::穴埋め編", "tile_id": "tiles-19", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::神経系::問題編", "tile_id": "tiles-20", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::神経系::穴埋め編", "tile_id": "tiles-21", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::精神系::問題編", "tile_id": "tiles-22", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::精神系::穴埋め編", "tile_id": "tiles-23", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::耳鼻・咽喉・口腔系::問題編", "tile_id": "tiles-24", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::耳鼻・咽喉・口腔系::穴埋め編", "tile_id": "tiles-25", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::運動器系::問題編", "tile_id": "tiles-26", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, {"deck": "M3 2学期::運動器系::穴埋め編", "tile_id": "tiles-27", "show_eta": true, "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}], "category_totals": {"問題編合計": {"tile_id": "tiles-cat-0", "members": ["M3 2学期::データ分析に基づく研究講義::問題編", "M3 2学期::女性内分泌・妊娠::問題編", "M3 2学期::循環器Ⅱ::問題編", "M3 2学期::性腺・生殖器::問題編", "M3 2学期::消化器系Ⅱ::問題編", "M3 2学期::神経系::問題編", "M3 2学期::精神系::問題編", "M3 2学期::耳鼻・咽喉・口腔系::問題編", "M3 2学期::運動器系::問題編"], "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}, "穴埋め編合計": {"tile_id": "tiles-cat-1", "members": ["M3 2学期::データ分析に基づく研究講義::穴埋め編", "M3 2学期::女性内分泌・妊娠::穴埋め編", "M3 2学期::循環器Ⅱ::穴埋め編", "M3 2学期::性腺・生殖器::穴埋め編", "M3 2学期::消化器系Ⅱ::穴埋め編", "M3 2学期::神経系::穴埋め編", "M3 2学期::精神系::穴埋め編", "M3 2学期::耳鼻・咽喉・口腔系::穴埋め編", "M3 2学期::運動器系::穴埋め編"], "pace14": {"new_per_day_active": null, "new_per_day_all": 0.0}}}};
+
+async function akInvoke(action, params) {
+  const res = await fetch(REFRESH_CONFIG.ankiconnect_url, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({action, version: 6, params}),
+  });
+  const body = await res.json();
+  if (body.error) throw new Error(body.error);
+  return body.result;
+}
+async function akCount(query) {
+  const ids = await akInvoke('findCards', {query});
+  return ids.length;
+}
+async function mapLimit(items, limit, fn, onProgress) {
+  const results = new Array(items.length);
+  let i = 0, done = 0;
+  async function worker() {
+    while (i < items.length) {
+      const idx = i++;
+      results[idx] = await fn(items[idx], idx);
+      done++;
+      if (onProgress) onProgress(done, items.length);
+    }
+  }
+  await Promise.all(Array.from({length: Math.min(limit, items.length)}, worker));
+  return results;
+}
+
+function fmtNum(n) { return n == null ? '—' : n.toLocaleString(); }
+
+function tileHtml(label, value, sub) {
+  const subHtml = sub ? `<div class="tile-sub">${sub}</div>` : '';
+  return `<div class="tile"><div class="tile-label">${label}</div><div class="tile-value">${value}</div>${subHtml}</div>`;
+}
+
+function renderTiles(snap, pace14, showEta) {
+  const total = snap.total_count || 0;
+  const remaining = snap.new_count || 0;
+  const studied = total - remaining;
+  const pct = total ? (100 * studied / total) : 0;
+  let html = '';
+  html += tileHtml('消化率', pct.toFixed(1) + '%', `${fmtNum(studied)} / ${fmtNum(total)} 枚`);
+  html += tileHtml('残り新規', fmtNum(remaining) + '枚');
+  html += tileHtml('今日の復習予定', fmtNum(snap.due_count) + '枚');
+  if (showEta) {
+    const rateOpt = pace14 && pace14.new_per_day_active;
+    const rateCons = pace14 && pace14.new_per_day_all;
+    const etaFrom = (rate) => {
+      if (!rate || rate <= 0 || remaining <= 0) return remaining <= 0 ? '完了' : '算出不可';
+      const days = Math.ceil(remaining / rate);
+      const d = new Date(); d.setDate(d.getDate() + days);
+      return `${days}日後 (${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')})`;
+    };
+    html += tileHtml('終了予測（楽観）', etaFrom(rateOpt), '稼働日ペース基準・前回同期のペースを使用');
+    html += tileHtml('終了予測（現実的）', etaFrom(rateCons), '全日平均ペース基準・前回同期のペースを使用');
+  }
+  return html;
+}
+
+async function fetchSnapshot(deck) {
+  const q = (extra) => akCount(`deck:"${deck}" ${extra}`.trim());
+  const [new_count, learning_count, due_count, total_count, suspended_count] = await Promise.all([
+    q('is:new'), q('is:learn'), q('is:due'), q(''), q('is:suspended'),
+  ]);
+  return {new_count, learning_count, due_count, total_count, suspended_count};
+}
+
+async function fetchForecast(deck, days) {
+  const overdue = await akCount(`deck:"${deck}" prop:due<=0`);
+  const rest = await mapLimit(
+    Array.from({length: days}, (_, i) => i + 1), 8,
+    (offset) => akCount(`deck:"${deck}" prop:due=${offset}`),
+  );
+  return [overdue, ...rest];
+}
+
+function renderLoadCalendarSvg(totals, spikeRatio) {
+  const width = 860, height = 180, plotH = height - 30, plotW = width;
+  const n = totals.length;
+  const slotW = plotW / n, barW = Math.min(24, slotW - 2), xOff = (slotW - barW) / 2;
+  const vmax = Math.max(1, ...totals);
+  const today = new Date();
+  let grid = '';
+  for (let i = 0; i <= 3; i++) {
+    const frac = i / 3, y = plotH - frac * plotH, val = Math.round(vmax * frac);
+    grid += `<line x1="0" y1="${y.toFixed(1)}" x2="${plotW}" y2="${y.toFixed(1)}" class="gridline"/>` +
+            `<text x="-6" y="${y.toFixed(1)}" class="axis-label" text-anchor="end" dominant-baseline="middle">${val}</text>`;
+  }
+  const labelStep = Math.max(1, Math.floor(n / 10));
+  let bars = '';
+  for (let i = 0; i < n; i++) {
+    const lo = Math.max(0, i - 7);
+    const window = totals.slice(lo, i);
+    const trailingAvg = window.length ? window.reduce((a,b)=>a+b,0)/window.length : (totals[0] || 0);
+    const isSpike = trailingAvg > 0 && totals[i] > trailingAvg * spikeRatio;
+    const color = isSpike ? 'var(--status-warning)' : 'var(--series-1)';
+    const h = (totals[i] / vmax) * plotH;
+    const x = i * slotW + xOff, y = plotH - h;
+    const d = new Date(today); d.setDate(d.getDate() + i);
+    const dateStr = `${d.getMonth()+1}/${d.getDate()}`;
+    bars += `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${barW.toFixed(1)}" height="${Math.max(h,0).toFixed(1)}" rx="4" fill="${color}"><title>${dateStr}: ${totals[i]}枚${isSpike ? '（高負荷）' : ''}</title></rect>`;
+    if (i % labelStep === 0 || i === n - 1) {
+      bars += `<text x="${(i*slotW+slotW/2).toFixed(1)}" y="${plotH+16}" class="axis-label" text-anchor="middle">${dateStr}</text>`;
+    }
+  }
+  return `<svg viewBox="0 0 ${width} ${height}" class="chart" role="img" preserveAspectRatio="none"><g transform="translate(40,4)">${grid}${bars}</g></svg>`;
+}
+
+async function refreshFromAnki() {
+  const btn = document.getElementById('refreshBtn');
+  const status = document.getElementById('refreshStatus');
+  btn.disabled = true;
+  status.classList.remove('error');
+  status.textContent = 'Ankiに接続中...';
+
+  try {
+    await akInvoke('version', {});
+
+    const decks = REFRESH_CONFIG.cards.map(c => c.deck);
+    const snapshots = {};
+    let doneCount = 0;
+    status.textContent = `デッキ情報を取得中... (0/${decks.length})`;
+    await mapLimit(decks, 6, async (deck) => {
+      snapshots[deck] = await fetchSnapshot(deck);
+      doneCount++;
+      status.textContent = `デッキ情報を取得中... (${doneCount}/${decks.length})`;
+    });
+
+    for (const card of REFRESH_CONFIG.cards) {
+      const el = document.getElementById(card.tile_id);
+      if (el && snapshots[card.deck]) el.innerHTML = renderTiles(snapshots[card.deck], card.pace14, card.show_eta);
+    }
+
+    for (const [name, cat] of Object.entries(REFRESH_CONFIG.category_totals)) {
+      const members = cat.members.map(m => snapshots[m]).filter(Boolean);
+      if (!members.length) continue;
+      const sum = (key) => members.reduce((a, s) => a + (s[key] || 0), 0);
+      const merged = {
+        new_count: sum('new_count'), learning_count: sum('learning_count'),
+        due_count: sum('due_count'), total_count: sum('total_count'), suspended_count: sum('suspended_count'),
+      };
+      const el = document.getElementById(cat.tile_id);
+      if (el) el.innerHTML = renderTiles(merged, cat.pace14, true);
+    }
+
+    const leafDecks = REFRESH_CONFIG.leaf_decks;
+    const days = REFRESH_CONFIG.forecast_days;
+    const totals = new Array(days + 1).fill(0);
+    let forecastDone = 0;
+    status.textContent = `将来の負荷を計算中... (0/${leafDecks.length})`;
+    await mapLimit(leafDecks, 4, async (deck) => {
+      const offsets = await fetchForecast(deck, days);
+      for (let i = 0; i < offsets.length; i++) totals[i] += offsets[i];
+      forecastDone++;
+      status.textContent = `将来の負荷を計算中... (${forecastDone}/${leafDecks.length})`;
+    });
+    const loadEl = document.getElementById('load-chart-wrap');
+    if (loadEl) loadEl.innerHTML = renderLoadCalendarSvg(totals, REFRESH_CONFIG.spike_threshold_ratio);
+
+    const now = new Date();
+    document.getElementById('liveUpdated').textContent =
+      ` ・ライブ更新: ${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`;
+    status.textContent = '✓ 最新化しました';
+  } catch (e) {
+    status.classList.add('error');
+    status.textContent = 'Ankiに接続できませんでした。Ankiを起動してからもう一度試してください。(' + e.message + ')';
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+document.getElementById('refreshBtn').addEventListener('click', refreshFromAnki);
+
+</script>
 
 </body>
 </html>
